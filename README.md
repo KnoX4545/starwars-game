@@ -1,94 +1,75 @@
-# ⚡ StarWars Project
+# 🚀 Dillimore Projects
 
-**Version 1.0.0** | **Browser Game** | **Offline**
+**by KnoX** | **Version 1.0.0**
 
-[![Play Now](https://img.shields.io/badge/Play%20Now-Click%20Here-brightgreen?style=for-the-badge)](https://knox4545.github.io/starwars-game/StarWars.html)
-[![Made with](https://img.shields.io/badge/Made%20with-HTML%2FCSS%2FJS-red?style=for-the-badge)](https://github.com/KnoX4545/starwars-game)
+[![Website](https://img.shields.io/badge/Website-KnoX-00ff41?style=for-the-badge)](https://knox4545.github.io)
+[![Made with](https://img.shields.io/badge/Made%20with-HTML%2FCSS%2FJS-red?style=for-the-badge)](https://github.com/KnoX4545)
 
 ---
 
-## ✨ **About**
+## 🌟 **Our Projects**
+
+| Project | Description | Play Now |
+|---------|-------------|----------|
+| ⚔️ **StarWars** | Text-based adventure game in space | [Play](https://knox4545.github.io/starwars-game/) |
+| 🐍 **Snake** | Classic snake game | [Play](https://knox4545.github.io/snake-game/) |
+| 🧮 **Calculator** | Advanced calculator with functions | [Use](https://knox4545.github.io/calculator/) |
+| 🏠 **Hub** | Main page with all projects | [Visit](https://knox4545.github.io) |
+
+---
+
+## ⚔️ **StarWars Game**
 
 A text-based adventure game set in the Star Wars universe. Command your troopers, manage resources, upgrade your equipment, and rise through the ranks!
 
-**Good Luck & Have Fun!** — KnoX
+**Features:**
+- ⚔️ Combat system with troopers
+- 💰 Economy and money management
+- ⚡ Auto-regenerating energy
+- 🗡️ Upgradeable sword system
+- 🏅 8 ranks from Bronze to God of War
+- 🎁 Daily rewards
+- 💾 Auto-save in browser
+
+[▶ Play StarWars](https://knox4545.github.io/starwars-game/)
 
 ---
 
-## 🎮 **Features**
+## 🐍 **Snake Game**
 
-| Feature | Description |
-|---------|-------------|
-| ⚔️ **Combat** | Send troopers to battle |
-| 💰 **Economy** | Earn and spend money |
-| ⚡ **Energy** | Auto-regenerates every 30s |
-| 🗡️ **Sword** | Upgrade and repair |
-| 🏅 **Rank** | 8 ranks from Bronze to God of War |
-| 🎁 **Daily** | Claim rewards every 24h |
-| 💾 **Save** | Auto-saves in your browser |
+The classic snake game with modern design. Eat food, grow longer, and survive!
 
----
+**Features:**
+- 🎮 Keyboard controls (↑ ↓ ← →)
+- 🍎 Food collection
+- 📊 Score tracking
+- 🔄 Restart option
+- 🎨 Dark theme design
 
-## 📖 **Quick Guide**
-
-1. **Buy a sword** (`buysword`)
-2. **Attack** with your troopers
-3. **Earn** money and XP
-4. **Level up** and improve your rank
-5. **Upgrade** your sword and energy
+[▶ Play Snake](https://knox4545.github.io/snake-game/)
 
 ---
 
-## 🕹️ **Commands**
+## 🧮 **Advanced Calculator**
 
-**Main Actions:**
-- `attack` - Send troopers to battle
-- `stats` - View your progress
-- `shop` - Buy and sell resources
+A powerful calculator with scientific functions.
 
-**Resources:**
-- `myenergy` - Check energy status
-- `upgradeenergy` - Increase max energy
-- `buyenergy` - Purchase energy elixirs
+**Features:**
+- ➕ Basic operations: + − × ÷
+- 📐 Scientific: sin, cos, tan, log, √
+- 📝 Parentheses support
+- 📜 Calculation history
+- ⌨️ Keyboard support
 
-**Sword:**
-- `mysword` - Check sword status
-- `buysword` - Purchase a sword
-- `repairsword` - Repair your sword
-- `upgradesword` - Upgrade your sword
-
-**Info:**
-- `myrank` - View your rank
-- `rankhelp` - See rank requirements
-- `prices` - View shop prices
-- `dailyreward` - Claim daily bonus
-- `help` - Show all commands
+[▶ Use Calculator](https://knox4545.github.io/calculator/)
 
 ---
 
-## 🚀 **Play Now**
+## 🏠 **Projects Hub**
 
-### 🌐 **Online**
-[Click here to play!](https://knox4545.github.io/starwars-game/StarWars.html)
+Visit our main page to see all projects in one place.
 
-### 📁 **Local**
-1. Download `StarWars.html`
-2. Open in any browser
-3. Start playing!
-
----
-
-## 📊 **Ranks**
-
-| Rank | Level |
-|------|-------|
-| Bronze | 1-5 |
-| Silver | 6-8 |
-| Gold | 9-14 |
-| Platinum | 15-18 |
-| Epic | 19-22 |
-| Legend | 23-25 |
-| God of War | 26+ |
+[▶ Visit Hub](https://knox4545.github.io)
 
 ---
 
@@ -96,24 +77,18 @@ A text-based adventure game set in the Star Wars universe. Command your troopers
 
 - **HTML5** - Structure
 - **CSS3** - Dark theme, responsive
-- **JavaScript** - Game logic
+- **JavaScript** - Logic and interactivity
 - **LocalStorage** - Save system
-
----
-
-## 💻 **Requirements**
-
-- Any modern browser
-- No installation needed
-- No internet required (after first load)
-- 100% free
+- **GitHub Pages** - Hosting
 
 ---
 
 ## 📝 **Author**
 
-**KnoX**
+**Team Dillimore**
+- Leader: **KnoX**
 - GitHub: [@KnoX4545](https://github.com/KnoX4545)
+- Website: [knox4545.github.io](https://knox4545.github.io)
 
 ---
 
@@ -123,7 +98,7 @@ MIT License - Free to use and modify
 
 ---
 
-**#StarWars Project by KnoX** | **Good Luck <3**
+**#Dillimore Projects by KnoX** | **Good Luck <3**
 
 ---
 
