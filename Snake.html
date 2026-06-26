@@ -308,7 +308,9 @@
 
 <script>
 // ================================================================
-// 🐍 SNAKE GAME  –  by KnoX  –  Version 1.2.0 (Wrap-Around)
+// 🐍 SNAKE GAME  –  by KnoX  –  Version 2.0.0
+// ================================================================
+// SUPPORTS: Keyboard, Touch, D-Pad, TV Remote, Gamepad
 // ================================================================
 
 // ---------- DOM ----------
@@ -397,7 +399,6 @@ function spawnFood() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Grid
     ctx.strokeStyle = '#141414';
     ctx.lineWidth = 0.5;
     for (let i = 0; i <= BOARD_SIZE; i++) {
@@ -411,7 +412,6 @@ function draw() {
         ctx.stroke();
     }
 
-    // Food
     ctx.shadowColor = '#ff4444';
     ctx.shadowBlur = 14;
     ctx.fillStyle = '#ff4444';
@@ -426,7 +426,6 @@ function draw() {
     ctx.fill();
     ctx.shadowBlur = 0;
 
-    // Snake
     const len = snake.length;
     snake.forEach((cell, index) => {
         const isHead = index === 0;
@@ -467,7 +466,6 @@ function draw() {
         }
     });
 
-    // Eyes
     const head = snake[0];
     if (head) {
         const hx = head.x * CELL_SIZE + CELL_SIZE / 2;
@@ -491,11 +489,10 @@ function draw() {
     }
 }
 
-// ---------- UPDATE (with Wrap-Around) ----------
+// ---------- UPDATE ----------
 function update() {
     if (!gameRunning) return;
 
-    // Process queued input
     while (inputQueue.length > 0) {
         const dir = inputQueue.shift();
         if (direction.dx !== -dir.dx || direction.dy !== -dir.dy) {
@@ -512,7 +509,6 @@ function update() {
         y: head.y + direction.dy
     };
 
-    // ===== WRAP-AROUND =====
     if (newHead.x < 0) newHead.x = BOARD_SIZE - 1;
     if (newHead.x >= BOARD_SIZE) newHead.x = 0;
     if (newHead.y < 0) newHead.y = BOARD_SIZE - 1;
@@ -520,7 +516,6 @@ function update() {
 
     const isEating = (newHead.x === food.x && newHead.y === food.y);
 
-    // Self collision (except tail if eating)
     const tailIndex = isEating ? snake.length : snake.length - 1;
     for (let i = 0; i < tailIndex; i++) {
         if (snake[i].x === newHead.x && snake[i].y === newHead.y) {
@@ -603,10 +598,14 @@ function setDirection(dx, dy) {
     if (inputQueue.length > 3) inputQueue.shift();
 }
 
-// ---------- KEYBOARD ----------
+// ================================================================
+// ========== UNIVERSAL CONTROLS ==================================
+// ================================================================
+
+// ---------- 1. KEYBOARD ----------
 function handleKey(e) {
     const key = e.key;
-    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(key)) {
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'Up', 'Down', 'Left', 'Right'].includes(key)) {
         e.preventDefault();
     }
 
@@ -617,14 +616,112 @@ function handleKey(e) {
     if (!gameRunning) return;
 
     switch (key) {
-        case 'ArrowUp':    setDirection(0, -1); break;
-        case 'ArrowDown':  setDirection(0, 1); break;
-        case 'ArrowLeft':  setDirection(-1, 0); break;
-        case 'ArrowRight': setDirection(1, 0); break;
+        case 'ArrowUp': case 'Up':      setDirection(0, -1); break;
+        case 'ArrowDown': case 'Down':  setDirection(0, 1); break;
+        case 'ArrowLeft': case 'Left':  setDirection(-1, 0); break;
+        case 'ArrowRight': case 'Right': setDirection(1, 0); break;
     }
 }
 
-// ---------- DPAD ----------
+// ---------- 2. TV REMOTE (WebOS, Tizen, Android TV, etc.) ----------
+function handleRemoteKey(e) {
+    const key = e.key;
+    // Many TV remotes send these key names
+    const remoteMap = {
+        'ArrowUp': { dx: 0, dy: -1 },
+        'ArrowDown': { dx: 0, dy: 1 },
+        'ArrowLeft': { dx: -1, dy: 0 },
+        'ArrowRight': { dx: 1, dy: 0 },
+        'Up': { dx: 0, dy: -1 },
+        'Down': { dx: 0, dy: 1 },
+        'Left': { dx: -1, dy: 0 },
+        'Right': { dx: 1, dy: 0 },
+        'MediaTrackPrevious': { dx: -1, dy: 0 },  // Some remaps
+        'MediaTrackNext': { dx: 1, dy: 0 },
+        'ChannelUp': { dx: 0, dy: -1 },
+        'ChannelDown': { dx: 0, dy: 1 },
+    };
+    
+    // Also check for keyCode (older TVs)
+    const keyCodeMap = {
+        38: { dx: 0, dy: -1 },  // Up
+        40: { dx: 0, dy: 1 },   // Down
+        37: { dx: -1, dy: 0 },  // Left
+        39: { dx: 1, dy: 0 },   // Right
+    };
+
+    let dir = remoteMap[key];
+    if (!dir && keyCodeMap[e.keyCode]) {
+        dir = keyCodeMap[e.keyCode];
+    }
+
+    if (dir) {
+        e.preventDefault();
+        if (!gameRunning) return;
+        setDirection(dir.dx, dir.dy);
+    }
+
+    // OK/Enter button on TV remote = Restart when game over
+    if (key === 'Enter' || key === 'OK' || key === 'Select') {
+        if (!gameRunning) {
+            e.preventDefault();
+            restartGame();
+        }
+    }
+}
+
+// ---------- 3. GAMEPAD (via Gamepad API) ----------
+let gamepadConnected = false;
+let gamepadInterval = null;
+
+function handleGamepad() {
+    if (!gameRunning) {
+        // Check if any button pressed to restart
+        const gamepads = navigator.getGamepads();
+        if (gamepads && gamepads[0]) {
+            const gp = gamepads[0];
+            if (gp.buttons[0]?.pressed || gp.buttons[1]?.pressed || gp.buttons[2]?.pressed || gp.buttons[3]?.pressed) {
+                restartGame();
+            }
+        }
+        return;
+    }
+
+    const gamepads = navigator.getGamepads();
+    if (!gamepads || !gamepads[0]) return;
+
+    const gp = gamepads[0];
+    const axes = gp.axes;
+    const buttons = gp.buttons;
+
+    // D-Pad / Hat switch (axes)
+    const deadZone = 0.2;
+    let dx = 0, dy = 0;
+
+    // Left stick or D-Pad axes
+    if (Math.abs(axes[0]) > deadZone) dx = Math.sign(axes[0]);
+    if (Math.abs(axes[1]) > deadZone) dy = Math.sign(axes[1]);
+
+    // If no axis movement, check buttons (some gamepads use buttons for D-Pad)
+    if (dx === 0 && dy === 0) {
+        // Standard D-Pad buttons (buttons 12-15 on many gamepads)
+        if (buttons[12]?.pressed) dy = -1;  // Up
+        else if (buttons[13]?.pressed) dy = 1;  // Down
+        else if (buttons[14]?.pressed) dx = -1; // Left
+        else if (buttons[15]?.pressed) dx = 1;  // Right
+    }
+
+    if (dx !== 0 || dy !== 0) {
+        setDirection(dx, dy);
+    }
+
+    // Restart with Start button (button 9 on many gamepads)
+    if (buttons[9]?.pressed && !gameRunning) {
+        restartGame();
+    }
+}
+
+// ---------- 4. DPAD (Touch/Click) ----------
 document.querySelectorAll('.dpad-btn[data-dir]').forEach(btn => {
     const dirMap = {
         'up': { dx: 0, dy: -1 },
@@ -653,6 +750,24 @@ document.querySelectorAll('.dpad-btn[data-dir]').forEach(btn => {
     });
 });
 
+// ---------- GAMEPAD CONNECTION ----------
+window.addEventListener('gamepadconnected', function(e) {
+    console.log('🎮 Gamepad connected:', e.gamepad.id);
+    gamepadConnected = true;
+    if (!gamepadInterval) {
+        gamepadInterval = setInterval(handleGamepad, 100);
+    }
+});
+
+window.addEventListener('gamepaddisconnected', function(e) {
+    console.log('🎮 Gamepad disconnected:', e.gamepad.id);
+    gamepadConnected = false;
+    if (gamepadInterval) {
+        clearInterval(gamepadInterval);
+        gamepadInterval = null;
+    }
+});
+
 // ---------- RESTART ----------
 restartTopBtn.addEventListener('click', restartGame);
 restartOverlayBtn.addEventListener('click', restartGame);
@@ -666,9 +781,15 @@ document.addEventListener('touchmove', function(e) {
 loadHighScore();
 initGame();
 gameLoop = setInterval(update, TICK_INTERVAL);
-document.addEventListener('keydown', handleKey);
 
-console.log('🐍 Snake Game v1.2.0 (Wrap-Around) by KnoX | Good Luck <3');
+// ---------- KEYBOARD EVENTS ----------
+document.addEventListener('keydown', function(e) {
+    handleKey(e);
+    handleRemoteKey(e); // TV remotes also trigger keydown
+});
+
+console.log('🐍 Snake Game v2.0.0 (Universal Controls) by KnoX | Good Luck <3');
+console.log('🎮 Supports: Keyboard, Touch, TV Remote, Gamepad');
 </script>
 </body>
 </html>
