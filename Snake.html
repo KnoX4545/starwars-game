@@ -55,6 +55,7 @@
         .score-bar {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 8px 4px 12px 4px;
             border-bottom: 1px solid #1a1a1a;
             margin-bottom: 14px;
@@ -72,6 +73,22 @@
         }
         .score-bar .item .num.high {
             color: #ffd700;
+        }
+        .btn-restart-top {
+            padding: 6px 18px;
+            background: transparent;
+            border: 1px solid #333;
+            color: #888;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            letter-spacing: 1px;
+        }
+        .btn-restart-top:hover {
+            border-color: #00ff41;
+            color: #00ff41;
         }
 
         /* ===== CANVAS ===== */
@@ -130,7 +147,7 @@
         .overlay .final-score .num.high {
             color: #ffd700;
         }
-        .overlay .btn-restart {
+        .overlay .btn-restart-overlay {
             margin-top: 18px;
             padding: 10px 36px;
             background: transparent;
@@ -144,7 +161,7 @@
             letter-spacing: 2px;
             font-family: inherit;
         }
-        .overlay .btn-restart:hover {
+        .overlay .btn-restart-overlay:hover {
             background: #00ff41;
             color: #0a0a0a;
             box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
@@ -176,8 +193,8 @@
             touch-action: manipulation;
         }
         .dpad-btn:active {
-            transform: scale(0.92);
-            background: #222;
+            transform: scale(0.90);
+            background: #2a2a2a;
             border-color: #00ff41;
             color: #00ff41;
         }
@@ -215,8 +232,9 @@
             .header h1 { font-size: 20px; }
             .score-bar .item { font-size: 11px; }
             .score-bar .item .num { font-size: 15px; }
+            .btn-restart-top { font-size: 10px; padding: 4px 14px; }
             .overlay .gameover-title { font-size: 22px; }
-            .overlay .btn-restart { padding: 8px 24px; font-size: 13px; }
+            .overlay .btn-restart-overlay { padding: 8px 24px; font-size: 13px; }
             .dpad {
                 grid-template-columns: 50px 50px 50px;
                 grid-template-rows: 50px 50px 50px;
@@ -249,6 +267,7 @@
     <div class="score-bar">
         <span class="item">🍎 Score <span class="num" id="scoreDisplay">0</span></span>
         <span class="item">🏆 Best <span class="num high" id="highScoreDisplay">0</span></span>
+        <button class="btn-restart-top" id="restartTopBtn">↻ Restart</button>
     </div>
 
     <!-- CANVAS -->
@@ -259,7 +278,7 @@
             <div class="gameover-title">💀 GAME OVER</div>
             <div class="final-score">Score: <span class="num" id="finalScore">0</span></div>
             <div class="final-score">Best: <span class="num high" id="finalHighScore">0</span></div>
-            <button class="btn-restart" id="restartBtn">↻ Play Again</button>
+            <button class="btn-restart-overlay" id="restartOverlayBtn">↻ Play Again</button>
         </div>
     </div>
 
@@ -292,8 +311,8 @@ const highScoreDisplay = document.getElementById('highScoreDisplay');
 const finalScore = document.getElementById('finalScore');
 const finalHighScore = document.getElementById('finalHighScore');
 const gameOverOverlay = document.getElementById('gameOverOverlay');
-const restartBtn = document.getElementById('restartBtn');
-const dpadBtns = document.querySelectorAll('.dpad-btn[data-dir]');
+const restartTopBtn = document.getElementById('restartTopBtn');
+const restartOverlayBtn = document.getElementById('restartOverlayBtn');
 
 // ---------- SETTINGS ----------
 const BOARD_SIZE = 20;
@@ -556,9 +575,8 @@ function restartGame() {
 // ---------- DIRECTION CONTROL ----------
 function setDirection(dx, dy) {
     if (!gameRunning) return;
-    const oppositeX = (dx === 0 && direction.dx !== 0);
-    const oppositeY = (dy === 0 && direction.dy !== 0);
-    if (oppositeX || oppositeY) return;
+    // Prevent 180-degree turns
+    if (direction.dx === -dx && direction.dy === -dy) return;
     nextDirection = { dx, dy };
 }
 
@@ -583,10 +601,12 @@ function handleKey(e) {
     }
 }
 
-// ---------- DPAD EVENTS ----------
-dpadBtns.forEach(btn => {
+// ---------- DPAD EVENTS (Fixed) ----------
+document.querySelectorAll('.dpad-btn[data-dir]').forEach(btn => {
     const dir = btn.dataset.dir;
-    btn.addEventListener('click', (e) => {
+    
+    // Click for desktop
+    btn.addEventListener('click', function(e) {
         e.preventDefault();
         if (!gameRunning) return;
         switch (dir) {
@@ -596,8 +616,9 @@ dpadBtns.forEach(btn => {
             case 'right': setDirection(1, 0); break;
         }
     });
-    // Prevent touch scrolling
-    btn.addEventListener('touchstart', (e) => {
+    
+    // Touch for mobile
+    btn.addEventListener('touchstart', function(e) {
         e.preventDefault();
         if (!gameRunning) return;
         switch (dir) {
@@ -609,14 +630,17 @@ dpadBtns.forEach(btn => {
     }, { passive: false });
 });
 
+// ---------- RESTART BUTTONS ----------
+restartTopBtn.addEventListener('click', restartGame);
+restartOverlayBtn.addEventListener('click', restartGame);
+
 // ---------- INIT ----------
 loadHighScore();
 initGame();
 gameLoop = setInterval(update, TICK_INTERVAL);
 
-// ---------- EVENTS ----------
+// ---------- KEYBOARD ----------
 document.addEventListener('keydown', handleKey);
-restartBtn.addEventListener('click', restartGame);
 
 console.log('🐍 Snake Game by KnoX | Good Luck <3');
 </script>
