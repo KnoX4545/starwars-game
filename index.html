@@ -23,175 +23,267 @@
             padding: 20px;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             text-align: center;
         }
 
         /* ===== HEADER ===== */
         .header {
-            margin-bottom: 40px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        .header .glow {
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0,255,65,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
         }
         .header h1 {
             color: #00ff41;
-            font-size: 36px;
-            font-weight: 700;
-            letter-spacing: 3px;
-            text-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-shadow: 0 0 30px rgba(0, 255, 65, 0.15);
+            position: relative;
+        }
+        .header h1 .star {
+            color: #ffd700;
         }
         .header .sub {
             color: #666;
-            font-size: 14px;
-            margin-top: 8px;
-            letter-spacing: 2px;
+            font-size: 15px;
+            margin-top: 10px;
+            letter-spacing: 3px;
         }
         .header .sub span {
             color: #00ff41;
+            font-weight: 600;
+        }
+        .header .line {
+            width: 60px;
+            height: 2px;
+            background: #00ff41;
+            margin: 16px auto 0;
+            opacity: 0.3;
         }
 
         /* ===== PROJECT GRID ===== */
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin-top: 20px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 10px;
         }
 
         /* ===== PROJECT CARD ===== */
         .card {
-            background: #111;
-            border: 1px solid #222;
-            border-radius: 16px;
-            padding: 30px 20px;
+            background: linear-gradient(145deg, #111, #0d0d0d);
+            border: 1px solid #1a1a1a;
+            border-radius: 20px;
+            padding: 35px 20px 30px;
             text-decoration: none;
             color: #aaa;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
             overflow: hidden;
         }
-        .card::before {
+        .card::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            border-radius: 16px;
-            padding: 1px;
-            background: linear-gradient(135deg, transparent 40%, #00ff41 100%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .card:hover::before {
-            opacity: 1;
+            border-radius: 20px;
+            background: linear-gradient(135deg, transparent 40%, rgba(0,255,65,0.03) 100%);
+            pointer-events: none;
         }
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px) scale(1.02);
             border-color: #00ff41;
-            box-shadow: 0 10px 40px rgba(0, 255, 65, 0.05);
-            background: #151515;
+            box-shadow: 0 20px 60px rgba(0, 255, 65, 0.06);
         }
         .card:active {
             transform: scale(0.97);
         }
 
         /* Card Icon */
-        .card .icon {
-            width: 80px;
-            height: 80px;
+        .card .icon-wrap {
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
-            margin-bottom: 16px;
-            background: #1a1a1a;
-            border: 1px solid #222;
-            transition: all 0.3s ease;
+            font-size: 42px;
+            margin-bottom: 18px;
+            background: #141414;
+            border: 2px solid #1a1a1a;
+            transition: all 0.4s ease;
+            position: relative;
         }
-        .card:hover .icon {
+        .card:hover .icon-wrap {
             border-color: #00ff41;
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.05);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.06);
+            transform: scale(1.05);
         }
-        /* Specific icon colors */
-        .card.starwars .icon { color: #ffd700; }
-        .card.snake .icon { color: #00ff41; }
-        .card.calculator .icon { color: #4a9eff; }
+        /* Icon colors */
+        .card.starwars .icon-wrap { color: #ffd700; }
+        .card.snake .icon-wrap { color: #00ff41; }
+        .card.calculator .icon-wrap { color: #4a9eff; }
+
+        /* Card glow ring */
+        .card .icon-wrap .ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            transition: all 0.4s ease;
+        }
+        .card:hover .icon-wrap .ring {
+            border-color: rgba(0,255,65,0.15);
+            transform: scale(1.2);
+        }
 
         /* Card Title */
         .card .name {
             color: #fff;
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
             margin-bottom: 6px;
-            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+        .card:hover .name {
+            color: #00ff41;
         }
         .card .desc {
-            color: #666;
+            color: #555;
             font-size: 13px;
-            line-height: 1.5;
+            line-height: 1.6;
+            max-width: 160px;
         }
         .card .badge {
-            margin-top: 12px;
+            margin-top: 16px;
             font-size: 11px;
             color: #00ff41;
-            border: 1px solid #00ff41;
-            padding: 4px 14px;
-            border-radius: 20px;
-            opacity: 0;
+            border: 1px solid rgba(0,255,65,0.2);
+            padding: 5px 18px;
+            border-radius: 30px;
+            background: rgba(0,255,65,0.03);
             transition: all 0.3s ease;
+            letter-spacing: 1px;
         }
         .card:hover .badge {
-            opacity: 1;
+            border-color: #00ff41;
+            background: rgba(0,255,65,0.06);
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.04);
+        }
+
+        /* Card number */
+        .card .number {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 11px;
+            color: #1a1a1a;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .card:hover .number {
+            color: #00ff41;
+        }
+
+        /* ===== STATUS BAR ===== */
+        .status {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 35px 0 10px;
+            padding: 12px 20px;
+            border-top: 1px solid #111;
+            border-bottom: 1px solid #111;
+        }
+        .status-item {
+            color: #444;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        .status-item .num {
+            color: #00ff41;
+            font-weight: 600;
         }
 
         /* ===== FOOTER ===== */
         .footer {
-            margin-top: 50px;
-            color: #333;
+            margin-top: 45px;
+            color: #222;
             font-size: 12px;
-            letter-spacing: 1px;
-            border-top: 1px solid #1a1a1a;
+            letter-spacing: 1.5px;
             padding-top: 20px;
+            border-top: 1px solid #111;
         }
         .footer span {
             color: #00ff41;
         }
         .footer .version {
-            color: #444;
+            color: #2a2a2a;
             font-size: 10px;
-            margin-top: 4px;
+            margin-top: 5px;
+            letter-spacing: 2px;
+        }
+        .footer .social {
+            margin-top: 8px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+        .footer .social a {
+            color: #333;
+            text-decoration: none;
+            font-size: 11px;
+            transition: color 0.3s ease;
+        }
+        .footer .social a:hover {
+            color: #00ff41;
         }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 700px) {
+        @media (max-width: 768px) {
             .grid {
                 grid-template-columns: 1fr 1fr;
-                gap: 15px;
+                gap: 18px;
             }
             .header h1 {
-                font-size: 28px;
-            }
-            .card {
-                padding: 24px 16px;
-            }
-            .card .icon {
-                width: 64px;
-                height: 64px;
                 font-size: 32px;
             }
+            .card {
+                padding: 28px 16px 24px;
+            }
+            .card .icon-wrap {
+                width: 72px;
+                height: 72px;
+                font-size: 34px;
+            }
             .card .name {
-                font-size: 17px;
+                font-size: 18px;
+            }
+            .status {
+                flex-wrap: wrap;
+                gap: 15px;
             }
         }
-        @media (max-width: 450px) {
+        @media (max-width: 480px) {
             .grid {
                 grid-template-columns: 1fr;
                 max-width: 320px;
@@ -199,12 +291,24 @@
                 margin-right: auto;
             }
             .header h1 {
-                font-size: 24px;
+                font-size: 26px;
+                letter-spacing: 2px;
             }
-            .card .icon {
-                width: 56px;
-                height: 56px;
-                font-size: 28px;
+            .card .icon-wrap {
+                width: 64px;
+                height: 64px;
+                font-size: 30px;
+            }
+            .card .name {
+                font-size: 17px;
+            }
+            .card .desc {
+                font-size: 12px;
+            }
+            .status {
+                flex-direction: column;
+                gap: 8px;
+                padding: 10px;
             }
         }
     </style>
@@ -212,45 +316,70 @@
 <body>
     <div class="container">
 
-        <!-- HEADER -->
+        <!-- ===== HEADER ===== -->
         <div class="header">
-            <h1>✦ Dillimore Projects ✦</h1>
+            <div class="glow"></div>
+            <h1>✦ Dillimore <span class="star">✦</span> Projects</h1>
             <div class="sub">by <span>KnoX</span>  |  Good Luck &lt;3</div>
+            <div class="line"></div>
         </div>
 
-        <!-- PROJECT GRID -->
+        <!-- ===== PROJECT GRID ===== -->
         <div class="grid">
 
             <!-- StarWars -->
             <a href="https://knox4545.github.io/StarWars.html" class="card starwars">
-                <div class="icon">⚔️</div>
+                <span class="number">#01</span>
+                <div class="icon-wrap">
+                    <span>⚔️</span>
+                    <span class="ring"></span>
+                </div>
                 <div class="name">StarWars</div>
-                <div class="desc">Text-based adventure in space</div>
+                <div class="desc">Text-based adventure in a galaxy far away</div>
                 <div class="badge">▶ Play Now</div>
             </a>
 
             <!-- Snake -->
             <a href="https://knox4545.github.io/Snake.html" class="card snake">
-                <div class="icon">🐍</div>
+                <span class="number">#02</span>
+                <div class="icon-wrap">
+                    <span>🐍</span>
+                    <span class="ring"></span>
+                </div>
                 <div class="name">Snake</div>
-                <div class="desc">Classic snake game</div>
+                <div class="desc">Classic snake game with modern style</div>
                 <div class="badge">▶ Play Now</div>
             </a>
 
             <!-- Calculator -->
             <a href="https://knox4545.github.io/Calculator.html" class="card calculator">
-                <div class="icon">🧮</div>
+                <span class="number">#03</span>
+                <div class="icon-wrap">
+                    <span>🧮</span>
+                    <span class="ring"></span>
+                </div>
                 <div class="name">Calculator</div>
-                <div class="desc">Advanced scientific calculator</div>
+                <div class="desc">Advanced scientific calculator with history</div>
                 <div class="badge">▶ Use Now</div>
             </a>
 
         </div>
 
-        <!-- FOOTER -->
+        <!-- ===== STATUS BAR ===== -->
+        <div class="status">
+            <span class="status-item">📦 <span class="num">3</span> Projects</span>
+            <span class="status-item">⚡ <span class="num">100%</span> Free</span>
+            <span class="status-item">🌐 <span class="num">Online</span> 24/7</span>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
         <div class="footer">
-            <span>#Dillimore Projects by KnoX</span>  |  Good Luck &lt;3<br>
+            <span>#Dillimore Projects by KnoX</span>  |  Good Luck &lt;3
             <div class="version">Version 1.0.0</div>
+            <div class="social">
+                <a href="https://github.com/KnoX4545">GitHub</a>
+                <a href="https://knox4545.github.io">Home</a>
+            </div>
         </div>
 
     </div>
