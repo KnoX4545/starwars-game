@@ -174,7 +174,7 @@
             color: #0a0a0a;
         }
 
-        /* ===== D-PAD (Faster) ===== */
+        /* ===== D-PAD ===== */
         .dpad {
             display: grid;
             grid-template-columns: 56px 56px 56px;
@@ -308,7 +308,7 @@
 
 <script>
 // ================================================================
-// 🐍 SNAKE GAME  –  by KnoX  –  Version 1.1.0
+// 🐍 SNAKE GAME  –  by KnoX  –  Version 1.2.0 (Wrap-Around)
 // ================================================================
 
 // ---------- DOM ----------
@@ -325,7 +325,7 @@ const restartOverlayBtn = document.getElementById('restartOverlayBtn');
 // ---------- SETTINGS ----------
 const BOARD_SIZE = 20;
 const CELL_SIZE = canvas.width / BOARD_SIZE;
-const TICK_INTERVAL = 130; // faster
+const TICK_INTERVAL = 130;
 
 // ---------- STATE ----------
 let snake = [];
@@ -336,7 +336,7 @@ let score = 0;
 let highScore = 0;
 let gameRunning = false;
 let gameLoop = null;
-let inputQueue = []; // queue for rapid input
+let inputQueue = [];
 
 // ---------- HIGH SCORE ----------
 function loadHighScore() {
@@ -397,7 +397,7 @@ function spawnFood() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Grid (subtle)
+    // Grid
     ctx.strokeStyle = '#141414';
     ctx.lineWidth = 0.5;
     for (let i = 0; i <= BOARD_SIZE; i++) {
@@ -467,7 +467,7 @@ function draw() {
         }
     });
 
-    // Eyes (quick)
+    // Eyes
     const head = snake[0];
     if (head) {
         const hx = head.x * CELL_SIZE + CELL_SIZE / 2;
@@ -491,14 +491,13 @@ function draw() {
     }
 }
 
-// ---------- UPDATE ----------
+// ---------- UPDATE (with Wrap-Around) ----------
 function update() {
     if (!gameRunning) return;
 
-    // Process queued input (rapid)
+    // Process queued input
     while (inputQueue.length > 0) {
         const dir = inputQueue.shift();
-        // Check if valid (not opposite)
         if (direction.dx !== -dir.dx || direction.dy !== -dir.dy) {
             nextDirection = dir;
             break;
@@ -508,16 +507,16 @@ function update() {
     direction = { ...nextDirection };
 
     const head = snake[0];
-    const newHead = {
+    let newHead = {
         x: head.x + direction.dx,
         y: head.y + direction.dy
     };
 
-    // Wall collision
-    if (newHead.x < 0 || newHead.x >= BOARD_SIZE || newHead.y < 0 || newHead.y >= BOARD_SIZE) {
-        gameOver();
-        return;
-    }
+    // ===== WRAP-AROUND =====
+    if (newHead.x < 0) newHead.x = BOARD_SIZE - 1;
+    if (newHead.x >= BOARD_SIZE) newHead.x = 0;
+    if (newHead.y < 0) newHead.y = BOARD_SIZE - 1;
+    if (newHead.y >= BOARD_SIZE) newHead.y = 0;
 
     const isEating = (newHead.x === food.x && newHead.y === food.y);
 
@@ -593,16 +592,14 @@ function restartGame() {
     gameLoop = setInterval(update, TICK_INTERVAL);
 }
 
-// ---------- DIRECTION (with queue) ----------
+// ---------- DIRECTION ----------
 function setDirection(dx, dy) {
     if (!gameRunning) return;
-    // Don't add if same as last queued
     if (inputQueue.length > 0) {
         const last = inputQueue[inputQueue.length - 1];
         if (last.dx === dx && last.dy === dy) return;
     }
     inputQueue.push({ dx, dy });
-    // Limit queue size
     if (inputQueue.length > 3) inputQueue.shift();
 }
 
@@ -627,7 +624,7 @@ function handleKey(e) {
     }
 }
 
-// ---------- DPAD EVENTS (Fast & Responsive) ----------
+// ---------- DPAD ----------
 document.querySelectorAll('.dpad-btn[data-dir]').forEach(btn => {
     const dirMap = {
         'up': { dx: 0, dy: -1 },
@@ -637,21 +634,18 @@ document.querySelectorAll('.dpad-btn[data-dir]').forEach(btn => {
     };
     const dir = btn.dataset.dir;
 
-    // Click for desktop
     btn.addEventListener('click', function(e) {
         e.preventDefault();
         const d = dirMap[dir];
         if (d) setDirection(d.dx, d.dy);
     });
 
-    // Touch for mobile (immediate response)
     btn.addEventListener('touchstart', function(e) {
         e.preventDefault();
         const d = dirMap[dir];
         if (d) setDirection(d.dx, d.dy);
     }, { passive: false });
 
-    // Also mousedown for faster response
     btn.addEventListener('mousedown', function(e) {
         e.preventDefault();
         const d = dirMap[dir];
@@ -663,7 +657,7 @@ document.querySelectorAll('.dpad-btn[data-dir]').forEach(btn => {
 restartTopBtn.addEventListener('click', restartGame);
 restartOverlayBtn.addEventListener('click', restartGame);
 
-// ---------- PREVENT SCROLLING ----------
+// ---------- PREVENT SCROLL ----------
 document.addEventListener('touchmove', function(e) {
     if (e.target.closest('.container')) e.preventDefault();
 }, { passive: false });
@@ -674,7 +668,7 @@ initGame();
 gameLoop = setInterval(update, TICK_INTERVAL);
 document.addEventListener('keydown', handleKey);
 
-console.log('🐍 Snake Game v1.1.0 by KnoX | Good Luck <3');
+console.log('🐍 Snake Game v1.2.0 (Wrap-Around) by KnoX | Good Luck <3');
 </script>
 </body>
 </html>
