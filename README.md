@@ -1,9 +1,8 @@
 # 🚀 Dillimore Projects
 
-**by KnoX** | **Version 1.0.0**
+**by KnoX** | **Version 1.1.0**
 
 [![Website](https://img.shields.io/badge/Website-KnoX-00ff41?style=for-the-badge)](https://knox4545.github.io)
-
 [![Made with](https://img.shields.io/badge/Made%20with-HTML%2FCSS%2FJS-red?style=for-the-badge)](https://github.com/KnoX4545)
 
 ---
@@ -15,6 +14,7 @@
 | ⚔️ **StarWars** | Text-based adventure game in space | [Play](https://knox4545.github.io/StarWars.html) |
 | 🐍 **Snake** | Classic snake game | [Play](https://knox4545.github.io/Snake.html) |
 | 🧮 **Calculator** | Advanced calculator with functions | [Use](https://knox4545.github.io/Calculator.html) |
+| 🗓️ **Calendar** | Accurate Persian calendar | [View](https://knox4545.github.io/Calendar.html) |
 | 🏠 **Hub** | Main page with all projects | [Visit](https://knox4545.github.io) |
 
 ---
@@ -41,7 +41,7 @@ A text-based adventure game set in the Star Wars universe. Command your troopers
 The classic snake game with modern design. Eat food, grow longer, and survive!
 
 **Features:**
-- 🎮 Keyboard controls (↑ ↓ ← →)
+- 🎮 Keyboard & touch controls (↑ ↓ ← →)
 - 🍎 Food collection
 - 📊 Score tracking
 - 🔄 Restart option
@@ -63,6 +63,23 @@ A powerful calculator with scientific functions.
 - ⌨️ Keyboard support
 
 [▶ Use Calculator](https://knox4545.github.io/Calculator.html)
+
+---
+
+## 🗓️ **Persian Calendar**
+
+A complete and accurate Persian (Jalali) calendar.
+
+**Features:**
+- 📅 Accurate Persian calendar with leap year support
+- 🗓️ 12 months with correct day counts (31, 30, 29/30 days)
+- 📆 Week starts on Saturday, Friday is holiday
+- 🎯 Click on any day to select it
+- ⌨️ Keyboard navigation (← → to change month, T for today)
+- 🌙 Dark theme design
+- 📊 Shows today's date and weekday
+
+[▶ View Calendar](https://knox4545.github.io/Calendar.html)
 
 ---
 
@@ -103,4 +120,4 @@ MIT License - Free to use and modify
 
 ---
 
-*Version 1.0.0*
+*Version 1.1.0*
