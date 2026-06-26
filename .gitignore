@@ -1,0 +1,41 @@
+# ====================================
+# StarWars Project - .gitignore
+# ====================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Project specific
+starwars_save.json
+*.cache
+
+# Node (if ever used)
+node_modules/
+npm-debug.log*
+package-lock.json
