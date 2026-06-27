@@ -3,263 +3,436 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Snake Game - Dillimore</title>
+    <title>🐍 Snake Game</title>
     <link rel="icon" type="image/png" href="https://uploadkon.ir/uploads/d5c326_26download.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        /* ===== RESET ===== */
+        /* ============================================================
+                   CSS VARIABLES
+                ============================================================ */
+        :root {
+            --bg-body: #0f0e17;
+            --bg-container: #1a1932;
+            --bg-card: #222145;
+            --bg-card-border: #2a2a4a;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --text-muted: #6c6e8a;
+            --accent-1: #ff8906;
+            --accent-2: #e53170;
+            --accent-3: #6246d4;
+            --accent-glow: rgba(255, 137, 6, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 16px 48px rgba(255, 137, 6, 0.06);
+            --border-color: #2a2a4a;
+            --radius: 20px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* ============================================================
+                   RESET & BASE
+                ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background: #0a0a0a;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-body);
+            font-family: var(--font);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 16px;
-            touch-action: none;
+            padding: 24px;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
+
         .container {
-            background: #111;
-            border: 2px solid #00ff41;
-            border-radius: 20px;
-            padding: 20px 16px 16px;
-            max-width: 460px;
+            background: var(--bg-container);
+            border: 1px solid var(--bg-card-border);
+            border-radius: var(--radius);
+            padding: 28px 24px 24px;
+            max-width: 560px;
             width: 100%;
-            box-shadow: 0 0 50px rgba(0, 255, 65, 0.04);
+            box-shadow: var(--shadow);
             user-select: none;
             -webkit-user-select: none;
         }
 
-        /* ===== HEADER ===== */
+        /* ============================================================
+                   HEADER
+                ============================================================ */
         .header {
             text-align: center;
-            margin-bottom: 10px;
-        }
-        .header h1 {
-            color: #00ff41;
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: 3px;
-        }
-        .header .sub {
-            color: #666;
-            font-size: 10px;
-            letter-spacing: 1.5px;
-            margin-top: 2px;
-        }
-        .header .sub span {
-            color: #00ff41;
+            margin-bottom: 16px;
         }
 
-        /* ===== SCORE BAR ===== */
+        .header .badge {
+            display: inline-block;
+            background: var(--accent-glow);
+            color: var(--accent-1);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 2px 14px;
+            border-radius: 100px;
+            border: 1px solid var(--accent-glow);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .sub {
+            color: var(--text-muted);
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+                   SCORE BAR
+                ============================================================ */
         .score-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 2px 10px 2px;
-            border-bottom: 1px solid #1a1a1a;
-            margin-bottom: 12px;
-        }
-        .score-bar .item {
-            color: #555;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-        }
-        .score-bar .item .num {
-            color: #00ff41;
-            font-weight: 700;
-            font-size: 16px;
-            margin-left: 3px;
-        }
-        .score-bar .item .num.high {
-            color: #ffd700;
-        }
-        .btn-restart-top {
-            padding: 4px 14px;
-            background: transparent;
-            border: 1px solid #333;
-            color: #888;
-            border-radius: 16px;
-            font-size: 11px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: inherit;
-            letter-spacing: 0.5px;
-            touch-action: manipulation;
-        }
-        .btn-restart-top:active {
-            transform: scale(0.92);
-            border-color: #00ff41;
-            color: #00ff41;
+            padding: 8px 4px 12px 4px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 16px;
         }
 
-        /* ===== CANVAS ===== */
+        .score-bar .item {
+            color: var(--text-muted);
+            font-size: 13px;
+            letter-spacing: 0.3px;
+            font-weight: 500;
+        }
+
+        .score-bar .item .num {
+            color: var(--accent-1);
+            font-weight: 700;
+            font-size: 18px;
+            margin-left: 4px;
+        }
+
+        .score-bar .item .num.high {
+            color: var(--accent-2);
+        }
+
+        .btn-restart-top {
+            padding: 6px 18px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            font-family: var(--font);
+            letter-spacing: 0.3px;
+        }
+
+        .btn-restart-top:hover {
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+        }
+
+        .btn-restart-top:active {
+            transform: scale(0.95);
+        }
+
+        /* ============================================================
+                   CANVAS
+                ============================================================ */
         .canvas-wrap {
             position: relative;
-            background: #0d0d0d;
-            border-radius: 12px;
-            border: 1px solid #1a1a1a;
+            background: #0d0c1a;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
             overflow: hidden;
             aspect-ratio: 1 / 1;
             touch-action: none;
         }
+
         #gameCanvas {
             display: block;
             width: 100%;
             height: 100%;
-            background: #0d0d0d;
+            background: #0d0c1a;
             image-rendering: pixelated;
             touch-action: none;
         }
 
-        /* ===== GAME OVER OVERLAY ===== */
+        /* ============================================================
+                   GAME OVER OVERLAY
+                ============================================================ */
         .overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.88);
+            background: rgba(15, 14, 23, 0.92);
             display: none;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            border-radius: 12px;
-            padding: 20px;
-            backdrop-filter: blur(3px);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(6px);
         }
+
         .overlay.show {
             display: flex;
         }
+
         .overlay .gameover-title {
-            color: #ff4444;
-            font-size: 26px;
+            color: var(--accent-2);
+            font-size: 30px;
             font-weight: 800;
-            letter-spacing: 3px;
-        }
-        .overlay .final-score {
-            color: #aaa;
-            font-size: 14px;
-            margin-top: 6px;
-        }
-        .overlay .final-score .num {
-            color: #00ff41;
-            font-weight: 700;
-            font-size: 18px;
-        }
-        .overlay .final-score .num.high {
-            color: #ffd700;
-        }
-        .overlay .btn-restart-overlay {
-            margin-top: 16px;
-            padding: 8px 32px;
-            background: transparent;
-            border: 2px solid #00ff41;
-            color: #00ff41;
-            font-size: 14px;
-            font-weight: 700;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            letter-spacing: 1.5px;
-            font-family: inherit;
-            touch-action: manipulation;
-        }
-        .overlay .btn-restart-overlay:active {
-            transform: scale(0.92);
-            background: #00ff41;
-            color: #0a0a0a;
+            letter-spacing: 1px;
         }
 
-        /* ===== D-PAD ===== */
+        .overlay .final-score {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-top: 8px;
+        }
+
+        .overlay .final-score .num {
+            color: var(--accent-1);
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .overlay .final-score .num.high {
+            color: var(--accent-2);
+        }
+
+        .overlay .btn-restart-overlay {
+            margin-top: 20px;
+            padding: 10px 36px;
+            background: transparent;
+            border: 2px solid var(--accent-1);
+            color: var(--accent-1);
+            font-size: 15px;
+            font-weight: 700;
+            border-radius: 100px;
+            cursor: pointer;
+            transition: all var(--transition);
+            letter-spacing: 0.5px;
+            font-family: var(--font);
+        }
+
+        .overlay .btn-restart-overlay:hover {
+            background: var(--accent-1);
+            color: var(--bg-body);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .overlay .btn-restart-overlay:active {
+            transform: scale(0.95);
+        }
+
+        /* ============================================================
+                   D-PAD
+                ============================================================ */
         .dpad {
             display: grid;
-            grid-template-columns: 56px 56px 56px;
-            grid-template-rows: 56px 56px 56px;
-            gap: 5px;
+            grid-template-columns: 60px 60px 60px;
+            grid-template-rows: 60px 60px 60px;
+            gap: 6px;
             justify-content: center;
-            margin: 14px auto 0;
+            margin: 16px auto 0;
             width: fit-content;
             touch-action: none;
         }
+
         .dpad-btn {
-            background: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 12px;
-            color: #888;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            color: var(--text-muted);
             font-size: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.08s ease;
+            transition: all 0.1s ease;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
             touch-action: manipulation;
             -webkit-touch-callout: none;
         }
+
         .dpad-btn:active {
             transform: scale(0.88);
-            background: #2a2a2a;
-            border-color: #00ff41;
-            color: #00ff41;
+            background: var(--bg-card-hover);
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+            box-shadow: 0 0 30px var(--accent-glow);
         }
+
         .dpad-btn.up { grid-column: 2; grid-row: 1; }
         .dpad-btn.left { grid-column: 1; grid-row: 2; }
         .dpad-btn.center { 
-            grid-column: 2; grid-row: 2; 
-            background: #0d0d0d;
-            border-color: #1a1a1a;
+            grid-column: 2; grid-row: 2;
+            background: transparent;
+            border-color: transparent;
             font-size: 10px;
-            color: #333;
+            color: var(--text-muted);
             cursor: default;
             border-radius: 50%;
+            opacity: 0.3;
         }
         .dpad-btn.right { grid-column: 3; grid-row: 2; }
         .dpad-btn.down { grid-column: 2; grid-row: 3; }
 
-        /* ===== FOOTER ===== */
+        /* ============================================================
+                   FOOTER
+                ============================================================ */
         .footer {
             text-align: center;
-            color: #222;
-            font-size: 9px;
-            margin-top: 12px;
-            padding-top: 8px;
-            border-top: 1px solid #111;
-            letter-spacing: 0.5px;
-        }
-        .footer span {
-            color: #00ff41;
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-color);
+            letter-spacing: 0.3px;
+            opacity: 0.6;
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 480px) {
-            .container { padding: 14px 10px 12px; }
-            .header h1 { font-size: 18px; }
-            .score-bar .item { font-size: 10px; }
-            .score-bar .item .num { font-size: 14px; }
-            .btn-restart-top { font-size: 9px; padding: 3px 12px; }
-            .overlay .gameover-title { font-size: 20px; }
-            .overlay .btn-restart-overlay { padding: 6px 20px; font-size: 12px; }
+        .footer .brand {
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        .footer .copyright {
+            font-size: 9px;
+            opacity: 0.5;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================================
+                   RESPONSIVE
+                ============================================================ */
+        @media (max-width: 560px) {
+            .container {
+                max-width: 100%;
+                padding: 20px 16px 16px;
+                border-radius: 16px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
             .dpad {
-                grid-template-columns: 48px 48px 48px;
-                grid-template-rows: 48px 48px 48px;
+                grid-template-columns: 52px 52px 52px;
+                grid-template-rows: 52px 52px 52px;
+                gap: 5px;
+            }
+
+            .dpad-btn {
+                font-size: 18px;
+                border-radius: 12px;
+            }
+
+            .score-bar .item {
+                font-size: 12px;
+            }
+
+            .score-bar .item .num {
+                font-size: 16px;
+            }
+
+            .btn-restart-top {
+                font-size: 11px;
+                padding: 4px 14px;
+            }
+
+            .overlay .gameover-title {
+                font-size: 24px;
+            }
+
+            .overlay .btn-restart-overlay {
+                padding: 8px 28px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 14px 12px 12px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .dpad {
+                grid-template-columns: 44px 44px 44px;
+                grid-template-rows: 44px 44px 44px;
                 gap: 4px;
             }
-            .dpad-btn { font-size: 18px; border-radius: 10px; }
-            .dpad-btn.center { font-size: 8px; }
+
+            .dpad-btn {
+                font-size: 15px;
+                border-radius: 10px;
+            }
+
+            .score-bar .item {
+                font-size: 10px;
+            }
+
+            .score-bar .item .num {
+                font-size: 14px;
+            }
+
+            .btn-restart-top {
+                font-size: 9px;
+                padding: 3px 10px;
+            }
         }
-        @media (max-width: 380px) {
+
+        @media (max-width: 350px) {
             .dpad {
-                grid-template-columns: 42px 42px 42px;
-                grid-template-rows: 42px 42px 42px;
+                grid-template-columns: 38px 38px 38px;
+                grid-template-rows: 38px 38px 38px;
                 gap: 3px;
             }
-            .dpad-btn { font-size: 15px; border-radius: 8px; }
+
+            .dpad-btn {
+                font-size: 13px;
+                border-radius: 8px;
+            }
         }
     </style>
 </head>
@@ -269,8 +442,9 @@
 
     <!-- HEADER -->
     <div class="header">
-        <h1>🐍 SNAKE</h1>
-        <div class="sub">by <span>KnoX</span>  |  Good Luck &lt;3</div>
+        <div class="badge">✦ Classic</div>
+        <h1>🐍 <span class="highlight">Snake</span></h1>
+        <div class="sub">Eat, grow, survive</div>
     </div>
 
     <!-- SCORE BAR -->
@@ -302,16 +476,19 @@
 
     <!-- FOOTER -->
     <div class="footer">
-        <span>#Dillimore Projects by KnoX</span>  |  Good Luck &lt;3
+        <div>
+            <span class="brand">Dillimore</span> — Built with ❤️ by <span class="brand">KnoX</span>
+        </div>
+        <div class="copyright">
+            © 2024-2026 Dillimore Team. All rights reserved.
+        </div>
     </div>
 
 </div>
 
 <script>
 // ================================================================
-// 🐍 SNAKE GAME  –  by KnoX  –  Version 2.0.0
-// ================================================================
-// SUPPORTS: Keyboard, Touch, D-Pad, TV Remote, Gamepad
+// 🐍 SNAKE GAME  –  by KnoX  –  Version 2.1.0
 // ================================================================
 
 // ---------- DOM ----------
@@ -400,7 +577,8 @@ function spawnFood() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.strokeStyle = '#141414';
+    // Grid
+    ctx.strokeStyle = 'rgba(42, 42, 74, 0.3)';
     ctx.lineWidth = 0.5;
     for (let i = 0; i <= BOARD_SIZE; i++) {
         ctx.beginPath();
@@ -413,9 +591,10 @@ function draw() {
         ctx.stroke();
     }
 
-    ctx.shadowColor = '#ff4444';
-    ctx.shadowBlur = 14;
-    ctx.fillStyle = '#ff4444';
+    // Food
+    ctx.shadowColor = '#e53170';
+    ctx.shadowBlur = 20;
+    ctx.fillStyle = '#e53170';
     ctx.beginPath();
     ctx.arc(
         food.x * CELL_SIZE + CELL_SIZE / 2,
@@ -427,6 +606,7 @@ function draw() {
     ctx.fill();
     ctx.shadowBlur = 0;
 
+    // Snake
     const len = snake.length;
     snake.forEach((cell, index) => {
         const isHead = index === 0;
@@ -436,8 +616,9 @@ function draw() {
         const radius = 4;
 
         const intensity = 0.4 + (0.6 * (1 - index / len));
-        const green = Math.round(200 * intensity);
-        ctx.fillStyle = isHead ? '#00ff41' : `rgb(0, ${green}, 60)`;
+        const orange = Math.round(255 * intensity * 0.4 + 137 * (1 - intensity * 0.4));
+        const green = Math.round(255 * intensity * 0.3 + 6 * (1 - intensity * 0.3));
+        ctx.fillStyle = isHead ? '#ff8906' : `rgb(${orange}, ${green}, 40)`;
 
         const cx = x + padding;
         const cy = y + padding;
@@ -457,9 +638,9 @@ function draw() {
         ctx.fill();
 
         if (isHead) {
-            ctx.shadowColor = '#00ff41';
-            ctx.shadowBlur = 18;
-            ctx.fillStyle = 'rgba(0,255,65,0.08)';
+            ctx.shadowColor = '#ff8906';
+            ctx.shadowBlur = 24;
+            ctx.fillStyle = 'rgba(255, 137, 6, 0.06)';
             ctx.beginPath();
             ctx.arc(x + CELL_SIZE/2, y + CELL_SIZE/2, CELL_SIZE/2, 0, Math.PI * 2);
             ctx.fill();
@@ -467,13 +648,14 @@ function draw() {
         }
     });
 
+    // Eyes
     const head = snake[0];
     if (head) {
         const hx = head.x * CELL_SIZE + CELL_SIZE / 2;
         const hy = head.y * CELL_SIZE + CELL_SIZE / 2;
         const eyeOff = 5;
         const eyeSize = 3;
-        ctx.fillStyle = '#0a0a0a';
+        ctx.fillStyle = '#0f0e17';
         if (direction.dx === 1) {
             ctx.fillRect(hx + 4, hy - eyeOff, eyeSize, eyeSize);
             ctx.fillRect(hx + 4, hy + eyeOff - eyeSize, eyeSize, eyeSize);
@@ -599,14 +781,10 @@ function setDirection(dx, dy) {
     if (inputQueue.length > 3) inputQueue.shift();
 }
 
-// ================================================================
-// ========== UNIVERSAL CONTROLS ==================================
-// ================================================================
-
-// ---------- 1. KEYBOARD ----------
+// ---------- KEYBOARD ----------
 function handleKey(e) {
     const key = e.key;
-    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'Up', 'Down', 'Left', 'Right'].includes(key)) {
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(key)) {
         e.preventDefault();
     }
 
@@ -617,112 +795,14 @@ function handleKey(e) {
     if (!gameRunning) return;
 
     switch (key) {
-        case 'ArrowUp': case 'Up':      setDirection(0, -1); break;
-        case 'ArrowDown': case 'Down':  setDirection(0, 1); break;
-        case 'ArrowLeft': case 'Left':  setDirection(-1, 0); break;
-        case 'ArrowRight': case 'Right': setDirection(1, 0); break;
+        case 'ArrowUp':    setDirection(0, -1); break;
+        case 'ArrowDown':  setDirection(0, 1); break;
+        case 'ArrowLeft':  setDirection(-1, 0); break;
+        case 'ArrowRight': setDirection(1, 0); break;
     }
 }
 
-// ---------- 2. TV REMOTE (WebOS, Tizen, Android TV, etc.) ----------
-function handleRemoteKey(e) {
-    const key = e.key;
-    // Many TV remotes send these key names
-    const remoteMap = {
-        'ArrowUp': { dx: 0, dy: -1 },
-        'ArrowDown': { dx: 0, dy: 1 },
-        'ArrowLeft': { dx: -1, dy: 0 },
-        'ArrowRight': { dx: 1, dy: 0 },
-        'Up': { dx: 0, dy: -1 },
-        'Down': { dx: 0, dy: 1 },
-        'Left': { dx: -1, dy: 0 },
-        'Right': { dx: 1, dy: 0 },
-        'MediaTrackPrevious': { dx: -1, dy: 0 },  // Some remaps
-        'MediaTrackNext': { dx: 1, dy: 0 },
-        'ChannelUp': { dx: 0, dy: -1 },
-        'ChannelDown': { dx: 0, dy: 1 },
-    };
-    
-    // Also check for keyCode (older TVs)
-    const keyCodeMap = {
-        38: { dx: 0, dy: -1 },  // Up
-        40: { dx: 0, dy: 1 },   // Down
-        37: { dx: -1, dy: 0 },  // Left
-        39: { dx: 1, dy: 0 },   // Right
-    };
-
-    let dir = remoteMap[key];
-    if (!dir && keyCodeMap[e.keyCode]) {
-        dir = keyCodeMap[e.keyCode];
-    }
-
-    if (dir) {
-        e.preventDefault();
-        if (!gameRunning) return;
-        setDirection(dir.dx, dir.dy);
-    }
-
-    // OK/Enter button on TV remote = Restart when game over
-    if (key === 'Enter' || key === 'OK' || key === 'Select') {
-        if (!gameRunning) {
-            e.preventDefault();
-            restartGame();
-        }
-    }
-}
-
-// ---------- 3. GAMEPAD (via Gamepad API) ----------
-let gamepadConnected = false;
-let gamepadInterval = null;
-
-function handleGamepad() {
-    if (!gameRunning) {
-        // Check if any button pressed to restart
-        const gamepads = navigator.getGamepads();
-        if (gamepads && gamepads[0]) {
-            const gp = gamepads[0];
-            if (gp.buttons[0]?.pressed || gp.buttons[1]?.pressed || gp.buttons[2]?.pressed || gp.buttons[3]?.pressed) {
-                restartGame();
-            }
-        }
-        return;
-    }
-
-    const gamepads = navigator.getGamepads();
-    if (!gamepads || !gamepads[0]) return;
-
-    const gp = gamepads[0];
-    const axes = gp.axes;
-    const buttons = gp.buttons;
-
-    // D-Pad / Hat switch (axes)
-    const deadZone = 0.2;
-    let dx = 0, dy = 0;
-
-    // Left stick or D-Pad axes
-    if (Math.abs(axes[0]) > deadZone) dx = Math.sign(axes[0]);
-    if (Math.abs(axes[1]) > deadZone) dy = Math.sign(axes[1]);
-
-    // If no axis movement, check buttons (some gamepads use buttons for D-Pad)
-    if (dx === 0 && dy === 0) {
-        // Standard D-Pad buttons (buttons 12-15 on many gamepads)
-        if (buttons[12]?.pressed) dy = -1;  // Up
-        else if (buttons[13]?.pressed) dy = 1;  // Down
-        else if (buttons[14]?.pressed) dx = -1; // Left
-        else if (buttons[15]?.pressed) dx = 1;  // Right
-    }
-
-    if (dx !== 0 || dy !== 0) {
-        setDirection(dx, dy);
-    }
-
-    // Restart with Start button (button 9 on many gamepads)
-    if (buttons[9]?.pressed && !gameRunning) {
-        restartGame();
-    }
-}
-
-// ---------- 4. DPAD (Touch/Click) ----------
+// ---------- DPAD ----------
 document.querySelectorAll('.dpad-btn[data-dir]').forEach(btn => {
     const dirMap = {
         'up': { dx: 0, dy: -1 },
@@ -743,54 +823,19 @@ document.querySelectorAll('.dpad-btn[data-dir]').forEach(btn => {
         const d = dirMap[dir];
         if (d) setDirection(d.dx, d.dy);
     }, { passive: false });
-
-    btn.addEventListener('mousedown', function(e) {
-        e.preventDefault();
-        const d = dirMap[dir];
-        if (d) setDirection(d.dx, d.dy);
-    });
-});
-
-// ---------- GAMEPAD CONNECTION ----------
-window.addEventListener('gamepadconnected', function(e) {
-    console.log('🎮 Gamepad connected:', e.gamepad.id);
-    gamepadConnected = true;
-    if (!gamepadInterval) {
-        gamepadInterval = setInterval(handleGamepad, 100);
-    }
-});
-
-window.addEventListener('gamepaddisconnected', function(e) {
-    console.log('🎮 Gamepad disconnected:', e.gamepad.id);
-    gamepadConnected = false;
-    if (gamepadInterval) {
-        clearInterval(gamepadInterval);
-        gamepadInterval = null;
-    }
 });
 
 // ---------- RESTART ----------
 restartTopBtn.addEventListener('click', restartGame);
 restartOverlayBtn.addEventListener('click', restartGame);
 
-// ---------- PREVENT SCROLL ----------
-document.addEventListener('touchmove', function(e) {
-    if (e.target.closest('.container')) e.preventDefault();
-}, { passive: false });
-
 // ---------- INIT ----------
 loadHighScore();
 initGame();
 gameLoop = setInterval(update, TICK_INTERVAL);
+document.addEventListener('keydown', handleKey);
 
-// ---------- KEYBOARD EVENTS ----------
-document.addEventListener('keydown', function(e) {
-    handleKey(e);
-    handleRemoteKey(e); // TV remotes also trigger keydown
-});
-
-console.log('🐍 Snake Game v2.0.0 (Universal Controls) by KnoX | Good Luck <3');
-console.log('🎮 Supports: Keyboard, Touch, TV Remote, Gamepad');
+console.log('🐍 Snake Game v2.1.0 by KnoX | Good Luck <3');
 </script>
 </body>
 </html>
