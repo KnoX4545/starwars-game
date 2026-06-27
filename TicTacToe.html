@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>🎮 Tic-Tac-Toe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .container {
+            background: #111;
+            border: 2px solid #00ff41;
+            border-radius: 24px;
+            padding: 24px 20px 20px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 0 60px rgba(0, 255, 65, 0.04);
+            color: #aaa;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #00ff41;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .header .sub {
+            color: #666;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            margin-top: 4px;
+        }
+
+        .header .sub span {
+            color: #00ff41;
+        }
+
+        /* ===== MODE SELECTOR ===== */
+        .mode-selector {
+            display: flex;
+            gap: 10px;
+            margin: 16px 0 12px;
+            justify-content: center;
+        }
+
+        .mode-btn {
+            padding: 8px 20px;
+            background: transparent;
+            border: 1px solid #2a2a2a;
+            border-radius: 20px;
+            color: #888;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .mode-btn:hover {
+            border-color: #00ff41;
+            color: #00ff41;
+        }
+
+        .mode-btn.active {
+            border-color: #00ff41;
+            color: #00ff41;
+            background: rgba(0, 255, 65, 0.05);
+        }
+
+        /* ===== TURN INDICATOR ===== */
+        .turn-indicator {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 8px 0 14px;
+            padding: 8px;
+            background: #0d0d0d;
+            border-radius: 10px;
+            border: 1px solid #1a1a1a;
+        }
+
+        .turn-indicator .x-turn {
+            color: #4a9eff;
+        }
+
+        .turn-indicator .o-turn {
+            color: #ff6b6b;
+        }
+
+        .turn-indicator .winner {
+            color: #ffd700;
+        }
+
+        /* ===== BOARD ===== */
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            max-width: 340px;
+            margin: 0 auto;
+            aspect-ratio: 1 / 1;
+        }
+
+        .cell {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            aspect-ratio: 1 / 1;
+            user-select: none;
+        }
+
+        .cell:hover {
+            border-color: #333;
+        }
+
+        .cell.x {
+            color: #4a9eff;
+            text-shadow: 0 0 30px rgba(74, 158, 255, 0.15);
+        }
+
+        .cell.o {
+            color: #ff6b6b;
+            text-shadow: 0 0 30px rgba(255, 107, 107, 0.15);
+        }
+
+        .cell.win-cell {
+            border-color: #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.08);
+        }
+
+        .cell:active {
+            transform: scale(0.92);
+        }
+
+        /* ===== SCORE ===== */
+        .score {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 16px 0 10px;
+            padding: 10px;
+            background: #0d0d0d;
+            border-radius: 12px;
+            border: 1px solid #1a1a1a;
+        }
+
+        .score-item {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .score-item .num {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .score-item .num.x-score {
+            color: #4a9eff;
+        }
+
+        .score-item .num.o-score {
+            color: #ff6b6b;
+        }
+
+        .score-item .num.draw-score {
+            color: #888;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-reset {
+            margin-top: 12px;
+            padding: 10px 32px;
+            background: transparent;
+            border: 1px solid #00ff41;
+            border-radius: 20px;
+            color: #00ff41;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .btn-reset:hover {
+            background: #00ff41;
+            color: #0a0a0a;
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+        }
+
+        .btn-reset:active {
+            transform: scale(0.92);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            color: #222;
+            font-size: 9px;
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 1px solid #111;
+            letter-spacing: 0.5px;
+        }
+
+        .footer span {
+            color: #00ff41;
+        }
+
+        @media (max-width: 420px) {
+            .container {
+                padding: 16px 12px 14px;
+            }
+            .header h1 {
+                font-size: 22px;
+            }
+            .cell {
+                font-size: 38px;
+                border-radius: 10px;
+            }
+            .board {
+                max-width: 280px;
+            }
+            .turn-indicator {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .board {
+                max-width: 240px;
+            }
+            .cell {
+                font-size: 30px;
+            }
+            .mode-btn {
+                font-size: 11px;
+                padding: 6px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🎮 Tic-Tac-Toe</h1>
+            <div class="sub">by <span>KnoX</span> | Good Luck &lt;3</div>
+        </div>
+
+        <!-- MODE SELECTOR -->
+        <div class="mode-selector">
+            <button class="mode-btn active" data-mode="single" id="singleModeBtn">🤖 vs Bot</button>
+            <button class="mode-btn" data-mode="multi" id="multiModeBtn">👥 2 Players</button>
+        </div>
+
+        <!-- TURN INDICATOR -->
+        <div class="turn-indicator" id="turnIndicator">
+            Turn: <span class="x-turn">❌</span>
+        </div>
+
+        <!-- BOARD -->
+        <div class="board" id="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+
+        <!-- SCORE -->
+        <div class="score">
+            <span class="score-item">❌ <span class="num x-score" id="xScore">0</span></span>
+            <span class="score-item">🤝 <span class="num draw-score" id="drawScore">0</span></span>
+            <span class="score-item">⭕ <span class="num o-score" id="oScore">0</span></span>
+        </div>
+
+        <!-- RESET -->
+        <button class="btn-reset" id="resetBtn">🔄 New Game</button>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <span>#Dillimore Projects by KnoX</span> | Good Luck &lt;3
+        </div>
+
+    </div>
+
+    <script>
+        // ================================================================
+        // 🎮 TIC-TAC-TOE  –  by KnoX  –  Version 1.0.0
+        // ================================================================
+
+        // ---------- DOM ----------
+        const cells = document.querySelectorAll('.cell');
+        const turnIndicator = document.getElementById('turnIndicator');
+        const xScoreEl = document.getElementById('xScore');
+        const oScoreEl = document.getElementById('oScore');
+        const drawScoreEl = document.getElementById('drawScore');
+        const resetBtn = document.getElementById('resetBtn');
+        const singleModeBtn = document.getElementById('singleModeBtn');
+        const multiModeBtn = document.getElementById('multiModeBtn');
+
+        // ---------- STATE ----------
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'x';
+        let gameOver = false;
+        let mode = 'single';
+        let scores = { x: 0, o: 0, draw: 0 };
+
+        // ---------- WIN PATTERNS ----------
+        const winPatterns = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        // ---------- INIT ----------
+        function initGame() {
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'x';
+            gameOver = false;
+            renderBoard();
+            updateTurnIndicator();
+            if (mode === 'single' && currentPlayer === 'o') {
+                setTimeout(robotMove, 400);
+            }
+        }
+
+        // ---------- RENDER ----------
+        function renderBoard() {
+            cells.forEach((cell, index) => {
+                cell.textContent = board[index];
+                cell.className = 'cell';
+                if (board[index] === 'x') cell.classList.add('x');
+                else if (board[index] === 'o') cell.classList.add('o');
+            });
+        }
+
+        function updateTurnIndicator() {
+            if (gameOver) return;
+            const playerName = currentPlayer === 'x' ? '❌' : '⭕';
+            const className = currentPlayer === 'x' ? 'x-turn' : 'o-turn';
+            turnIndicator.innerHTML = `Turn: <span class="${className}">${playerName}</span>`;
+        }
+
+        function showWinner(winner, winCells) {
+            gameOver = true;
+            if (winner === 'draw') {
+                turnIndicator.innerHTML = '🤝 <span class="winner">Draw!</span>';
+                scores.draw++;
+                drawScoreEl.textContent = scores.draw;
+                return;
+            }
+            const emoji = winner === 'x' ? '❌' : '⭕';
+            const winnerName = winner === 'x' ? 'Player X' : 'Player O';
+            turnIndicator.innerHTML = `🏆 <span class="winner">${winnerName} Wins! ${emoji}</span>`;
+
+            if (winCells) {
+                winCells.forEach(idx => {
+                    cells[idx].classList.add('win-cell');
+                });
+            }
+
+            if (winner === 'x') {
+                scores.x++;
+                xScoreEl.textContent = scores.x;
+            } else {
+                scores.o++;
+                oScoreEl.textContent = scores.o;
+            }
+        }
+
+        // ---------- CHECK WINNER ----------
+        function checkWinner() {
+            for (const pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    return { winner: board[a], winCells: pattern };
+                }
+            }
+            if (board.every(cell => cell !== '')) {
+                return { winner: 'draw', winCells: null };
+            }
+            return { winner: null, winCells: null };
+        }
+
+        // ---------- MAKE MOVE ----------
+        function makeMove(index) {
+            if (gameOver) return false;
+            if (board[index] !== '') return false;
+
+            board[index] = currentPlayer;
+            renderBoard();
+
+            const result = checkWinner();
+            if (result.winner) {
+                showWinner(result.winner, result.winCells);
+                return true;
+            }
+
+            currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+            updateTurnIndicator();
+
+            if (mode === 'single' && currentPlayer === 'o' && !gameOver) {
+                setTimeout(robotMove, 350);
+            }
+
+            return true;
+        }
+
+        // ---------- ROBOT (AI) ----------
+        function robotMove() {
+            if (gameOver) return;
+            if (mode !== 'single') return;
+            if (currentPlayer !== 'o') return;
+            if (board.every(cell => cell !== '')) return;
+
+            const emptyIndices = board
+                .map((cell, idx) => cell === '' ? idx : null)
+                .filter(idx => idx !== null);
+
+            if (emptyIndices.length === 0) return;
+
+            // 1. Win if possible
+            for (const idx of emptyIndices) {
+                board[idx] = 'o';
+                const result = checkWinner();
+                board[idx] = '';
+                if (result.winner === 'o') {
+                    makeMove(idx);
+                    return;
+                }
+            }
+
+            // 2. Block player's win
+            for (const idx of emptyIndices) {
+                board[idx] = 'x';
+                const result = checkWinner();
+                board[idx] = '';
+                if (result.winner === 'x') {
+                    makeMove(idx);
+                    return;
+                }
+            }
+
+            // 3. Take center
+            if (emptyIndices.includes(4)) {
+                makeMove(4);
+                return;
+            }
+
+            // 4. Take corners
+            const corners = [0, 2, 6, 8];
+            const availableCorners = corners.filter(idx => emptyIndices.includes(idx));
+            if (availableCorners.length > 0) {
+                const randomCorner = availableCorners[Math.floor(Math.random() * availableCorners.length)];
+                makeMove(randomCorner);
+                return;
+            }
+
+            // 5. Take any remaining
+            const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+            makeMove(randomIndex);
+        }
+
+        // ---------- RESET ----------
+        function resetGame() {
+            if (!gameOver && board.some(cell => cell !== '')) {
+                const confirmReset = confirm('Are you sure you want to reset the game?');
+                if (!confirmReset) return;
+            }
+            initGame();
+        }
+
+        // ---------- CLICK HANDLER ----------
+        cells.forEach((cell, index) => {
+            cell.addEventListener('click', () => {
+                if (mode === 'single' && currentPlayer === 'o') return;
+                makeMove(index);
+            });
+        });
+
+        // ---------- MODE CHANGE ----------
+        function setMode(newMode) {
+            mode = newMode;
+            singleModeBtn.classList.toggle('active', mode === 'single');
+            multiModeBtn.classList.toggle('active', mode === 'multi');
+            initGame();
+        }
+
+        singleModeBtn.addEventListener('click', () => setMode('single'));
+        multiModeBtn.addEventListener('click', () => setMode('multi'));
+
+        // ---------- RESET BUTTON ----------
+        resetBtn.addEventListener('click', resetGame);
+
+        // ---------- KEYBOARD SUPPORT ----------
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'r' || e.key === 'R') resetGame();
+            if (e.key === '1') setMode('single');
+            if (e.key === '2') setMode('multi');
+            const num = parseInt(e.key);
+            if (num >= 1 && num <= 9) {
+                const index = num - 1;
+                if (mode === 'single' && currentPlayer === 'o') return;
+                makeMove(index);
+            }
+        });
+
+        // ---------- INIT ----------
+        initGame();
+
+        console.log('🎮 Tic-Tac-Toe by KnoX | Good Luck <3');
+        console.log('📌 Mode: Single Player (vs Bot)');
+        console.log('⌨️  Keys: 1-9 for board, R=Reset, 1=Single, 2=Multi');
+    </script>
+
+</body>
+</html>
