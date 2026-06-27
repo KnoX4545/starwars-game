@@ -3,117 +3,196 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Advanced Calculator - Dillimore</title>
+    <title>🧮 Calculator - Dillimore</title>
     <link rel="icon" type="image/png" href="https://uploadkon.ir/uploads/292a26_26calculator-icon-free-vector.jpg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        /* ===== RESET ===== */
+        /* ============================================================
+                   CSS VARIABLES
+                ============================================================ */
+        :root {
+            --bg-body: #0f0e17;
+            --bg-container: #1a1932;
+            --bg-card: #222145;
+            --bg-card-hover: #2a2955;
+            --bg-card-border: #2a2a4a;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --text-muted: #6c6e8a;
+            --accent-1: #ff8906;
+            --accent-2: #e53170;
+            --accent-3: #6246d4;
+            --accent-glow: rgba(255, 137, 6, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 16px 48px rgba(255, 137, 6, 0.06);
+            --border-color: #2a2a4a;
+            --radius: 18px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+        }
+
+        /* ============================================================
+                   RESET & BASE
+                ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background: #0a0a0a;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-body);
+            font-family: var(--font);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 16px;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
+
         .container {
-            background: #111;
-            border: 2px solid #00ff41;
-            border-radius: 20px;
-            padding: 20px 16px 16px;
-            max-width: 400px;
+            background: var(--bg-container);
+            border: 1px solid var(--bg-card-border);
+            border-radius: var(--radius);
+            padding: 24px 20px 20px;
+            max-width: 440px;
             width: 100%;
-            box-shadow: 0 0 50px rgba(0, 255, 65, 0.04);
+            box-shadow: var(--shadow);
             user-select: none;
         }
 
-        /* ===== HEADER ===== */
+        /* ============================================================
+                   HEADER
+                ============================================================ */
         .header {
             text-align: center;
-            margin-bottom: 12px;
-        }
-        .header h1 {
-            color: #00ff41;
-            font-size: 22px;
-            font-weight: 700;
-            letter-spacing: 3px;
-        }
-        .header .sub {
-            color: #666;
-            font-size: 10px;
-            letter-spacing: 1.5px;
-            margin-top: 2px;
-        }
-        .header .sub span {
-            color: #00ff41;
+            margin-bottom: 14px;
         }
 
-        /* ===== DISPLAY ===== */
+        .header .badge {
+            display: inline-block;
+            background: var(--accent-glow);
+            color: var(--accent-1);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 2px 14px;
+            border-radius: 100px;
+            border: 1px solid var(--accent-glow);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .sub {
+            color: var(--text-muted);
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+                   DISPLAY
+                ============================================================ */
         .display-wrap {
-            background: #0d0d0d;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            padding: 12px 16px;
+            background: #0d0c1a;
+            border: 1px solid var(--bg-card-border);
+            border-radius: 14px;
+            padding: 14px 18px;
             margin-bottom: 14px;
-            min-height: 80px;
+            min-height: 88px;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: flex-end;
             overflow: hidden;
+            transition: border-color var(--transition);
         }
+
+        .display-wrap:focus-within {
+            border-color: var(--accent-1);
+        }
+
         .display-wrap .expression {
-            color: #555;
-            font-size: 14px;
+            color: var(--text-muted);
+            font-size: 13px;
             min-height: 22px;
             word-break: break-all;
             text-align: right;
             width: 100%;
-            font-family: 'Courier New', monospace;
+            font-family: var(--font-mono);
+            opacity: 0.7;
         }
+
         .display-wrap .result {
-            color: #00ff41;
-            font-size: 32px;
+            color: var(--text-primary);
+            font-size: 34px;
             font-weight: 700;
-            min-height: 42px;
+            min-height: 44px;
             word-break: break-all;
             text-align: right;
             width: 100%;
-            font-family: 'Courier New', monospace;
-            transition: color 0.2s;
-        }
-        .display-wrap .result.error {
-            color: #ff4444;
-            font-size: 20px;
+            font-family: var(--font-mono);
+            transition: color var(--transition);
+            letter-spacing: -0.5px;
         }
 
-        /* ===== HISTORY ===== */
+        .display-wrap .result.error {
+            color: #ff4444;
+            font-size: 22px;
+        }
+
+        /* ============================================================
+                   HISTORY
+                ============================================================ */
         .history-toggle {
             text-align: right;
             margin-bottom: 6px;
         }
+
         .history-toggle button {
             background: transparent;
             border: none;
-            color: #444;
+            color: var(--text-muted);
             font-size: 11px;
+            font-weight: 500;
             cursor: pointer;
-            font-family: inherit;
-            letter-spacing: 0.5px;
-            transition: color 0.2s;
+            font-family: var(--font);
+            letter-spacing: 0.3px;
+            transition: color var(--transition);
+            opacity: 0.5;
         }
+
         .history-toggle button:hover {
-            color: #00ff41;
+            color: var(--accent-1);
+            opacity: 1;
         }
+
         .history-box {
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 8px;
+            background: #0d0c1a;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             padding: 8px 12px;
             margin-bottom: 12px;
             max-height: 0;
@@ -121,122 +200,218 @@
             transition: max-height 0.3s ease, padding 0.3s ease;
             padding: 0 12px;
         }
+
         .history-box.open {
             max-height: 150px;
             padding: 8px 12px;
             overflow-y: auto;
         }
-        .history-box .item {
-            color: #666;
-            font-size: 12px;
-            padding: 2px 0;
-            border-bottom: 1px solid #111;
-            font-family: 'Courier New', monospace;
-        }
-        .history-box .item .h-result {
-            color: #00ff41;
-        }
+
         .history-box::-webkit-scrollbar {
             width: 3px;
         }
+        .history-box::-webkit-scrollbar-track {
+            background: transparent;
+        }
         .history-box::-webkit-scrollbar-thumb {
-            background: #222;
-            border-radius: 2px;
+            background: var(--bg-card-border);
+            border-radius: 4px;
         }
 
-        /* ===== BUTTONS ===== */
+        .history-box .item {
+            color: var(--text-muted);
+            font-size: 12px;
+            padding: 3px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-family: var(--font-mono);
+            opacity: 0.8;
+        }
+
+        .history-box .item .h-result {
+            color: var(--accent-1);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+                   BUTTONS
+                ============================================================ */
         .btn-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 6px;
         }
+
         .btn {
             padding: 14px 4px;
-            background: #1a1a1a;
-            border: 1px solid #222;
-            border-radius: 10px;
-            color: #aaa;
-            font-size: 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--bg-card-border);
+            border-radius: 12px;
+            color: var(--text-secondary);
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.12s ease;
-            font-family: inherit;
+            transition: all var(--transition);
+            font-family: var(--font);
             text-align: center;
             touch-action: manipulation;
             user-select: none;
         }
-        .btn:active {
-            transform: scale(0.92);
-            background: #2a2a2a;
-            border-color: #00ff41;
-            color: #00ff41;
+
+        .btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-1);
+            color: var(--text-primary);
         }
+
+        .btn:active {
+            transform: scale(0.93);
+            background: var(--bg-card-hover);
+        }
+
         /* Special buttons */
         .btn.func {
-            color: #4a9eff;
-            font-size: 13px;
+            color: var(--accent-3);
+            font-size: 12px;
         }
-        .btn.func:active {
-            border-color: #4a9eff;
-            color: #4a9eff;
+
+        .btn.func:hover {
+            border-color: var(--accent-3);
+            color: var(--accent-3);
         }
+
         .btn.op {
-            color: #ffd700;
+            color: var(--accent-1);
         }
-        .btn.op:active {
-            border-color: #ffd700;
-            color: #ffd700;
+
+        .btn.op:hover {
+            border-color: var(--accent-1);
+            color: var(--accent-1);
         }
+
         .btn.equals {
-            background: #00ff41;
-            color: #0a0a0a;
+            background: var(--accent-1);
+            color: var(--bg-body);
             font-size: 20px;
-            border-color: #00ff41;
+            font-weight: 800;
+            border-color: var(--accent-1);
         }
+
+        .btn.equals:hover {
+            background: #e07c00;
+            border-color: #e07c00;
+            color: var(--bg-body);
+        }
+
         .btn.equals:active {
-            background: #00cc33;
-            transform: scale(0.92);
+            transform: scale(0.93);
         }
+
         .btn.clear {
             color: #ff4444;
         }
-        .btn.clear:active {
+
+        .btn.clear:hover {
             border-color: #ff4444;
             color: #ff4444;
         }
+
         .btn.span2 {
             grid-column: span 2;
         }
 
-        /* ===== FOOTER ===== */
+        /* ============================================================
+                   FOOTER
+                ============================================================ */
         .footer {
             text-align: center;
-            color: #222;
+            color: var(--text-muted);
             font-size: 9px;
             margin-top: 14px;
-            padding-top: 10px;
-            border-top: 1px solid #111;
-            letter-spacing: 0.5px;
-        }
-        .footer span {
-            color: #00ff41;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            letter-spacing: 0.3px;
+            opacity: 0.5;
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 420px) {
-            .container { padding: 14px 10px 12px; }
-            .header h1 { font-size: 18px; }
-            .display-wrap { padding: 10px 12px; min-height: 70px; }
-            .display-wrap .result { font-size: 26px; }
-            .display-wrap .expression { font-size: 12px; }
-            .btn { padding: 12px 2px; font-size: 14px; }
-            .btn.func { font-size: 11px; }
-            .btn-grid { gap: 4px; }
+        .footer .brand {
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
         }
+
+        /* ============================================================
+                   RESPONSIVE
+                ============================================================ */
+        @media (max-width: 440px) {
+            .container {
+                padding: 18px 14px 14px;
+                border-radius: 16px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .display-wrap {
+                min-height: 74px;
+                padding: 10px 14px;
+            }
+
+            .display-wrap .result {
+                font-size: 28px;
+                min-height: 36px;
+            }
+
+            .display-wrap .expression {
+                font-size: 12px;
+            }
+
+            .btn {
+                padding: 12px 3px;
+                font-size: 13px;
+                border-radius: 10px;
+            }
+
+            .btn.func {
+                font-size: 10px;
+            }
+
+            .btn.equals {
+                font-size: 17px;
+            }
+
+            .btn-grid {
+                gap: 5px;
+            }
+        }
+
         @media (max-width: 360px) {
-            .btn { padding: 10px 2px; font-size: 12px; }
-            .btn.func { font-size: 10px; }
-            .display-wrap .result { font-size: 22px; }
+            .container {
+                padding: 14px 10px 12px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .display-wrap .result {
+                font-size: 22px;
+            }
+
+            .btn {
+                padding: 10px 2px;
+                font-size: 11px;
+            }
+
+            .btn.func {
+                font-size: 9px;
+            }
+
+            .btn-grid {
+                gap: 4px;
+            }
         }
     </style>
 </head>
@@ -246,8 +421,9 @@
 
     <!-- HEADER -->
     <div class="header">
-        <h1>🧮 CALCULATOR</h1>
-        <div class="sub">by <span>KnoX</span>  |  Good Luck &lt;3</div>
+        <div class="badge">✦ Tool</div>
+        <h1>🧮 <span class="highlight">Calculator</span></h1>
+        <div class="sub">Advanced scientific calculator</div>
     </div>
 
     <!-- DISPLAY -->
@@ -314,14 +490,15 @@
 
     <!-- FOOTER -->
     <div class="footer">
-        <span>#Dillimore Projects by KnoX</span>  |  Good Luck &lt;3
+        <span class="brand">Dillimore</span> — Built with ❤️ by <span class="brand">KnoX</span>
+        <br>© 2024-2026 Dillimore Team. All rights reserved.
     </div>
 
 </div>
 
 <script>
 // ================================================================
-// 🧮 ADVANCED CALCULATOR  –  by KnoX  –  Version 1.0.0
+// 🧮 ADVANCED CALCULATOR  –  by KnoX  –  Version 2.0.0
 // ================================================================
 
 // ---------- DOM ----------
@@ -342,7 +519,6 @@ let lastResult = null;
 // ---------- UPDATE DISPLAY ----------
 function updateDisplay() {
     let display = currentInput;
-    // Format large numbers
     if (display.length > 15 && !display.includes('e')) {
         const num = parseFloat(display);
         if (!isNaN(num)) {
@@ -366,7 +542,7 @@ function addHistory(expr, result) {
 
 function renderHistory() {
     if (history.length === 0) {
-        historyBox.innerHTML = '<div class="item" style="color:#333;">No history yet</div>';
+        historyBox.innerHTML = '<div class="item" style="color:var(--text-muted);opacity:0.3;">No history yet</div>';
         return;
     }
     historyBox.innerHTML = history.map(h =>
@@ -454,7 +630,6 @@ function calculate() {
         default: return;
     }
 
-    // Handle floating point precision
     if (typeof result === 'number' && !Number.isInteger(result)) {
         result = parseFloat(result.toPrecision(12));
     }
@@ -515,7 +690,6 @@ function unaryFunction(func) {
         result = parseFloat(result.toPrecision(12));
     }
 
-    const oldInput = currentInput;
     currentInput = String(result);
     updateDisplay();
     updateExpression(displayName + ' =');
@@ -534,11 +708,9 @@ function inputPi() {
         currentInput = String(Math.PI);
     } else {
         currentInput += '*π';
-        // Replace π with actual value for calculation
         const parts = currentInput.split('π');
         if (parts.length > 1) {
             currentInput = parts.join('*' + Math.PI);
-            // Clean up
             currentInput = currentInput.replace(/^\*/g, '');
             currentInput = currentInput.replace(/\*{2,}/g, '*');
         }
@@ -573,7 +745,6 @@ document.querySelectorAll('.btn').forEach(btn => {
     btn.addEventListener('click', function(e) {
         const action = this.dataset.action;
 
-        // Handle previous errors
         if (currentInput === 'Error') {
             if (action !== 'clear') {
                 currentInput = '0';
@@ -583,26 +754,22 @@ document.querySelectorAll('.btn').forEach(btn => {
         }
 
         switch (action) {
-            // Numbers
             case '0': case '1': case '2': case '3': case '4':
             case '5': case '6': case '7': case '8': case '9':
                 inputDigit(action); break;
             case '.': inputDigit('.'); break;
             case 'pi': inputPi(); break;
 
-            // Operations
             case '+': case '-': case '*': case '/':
                 setOperation(action); break;
             case '^': setOperation('^'); break;
             case 'percent': unaryFunction('percent'); break;
             case 'exp': unaryFunction('exp'); break;
 
-            // Equals
             case 'equals': 
                 if (operation) {
                     calculate();
                 } else if (lastResult !== null) {
-                    // Repeat last operation
                     const prev = parseFloat(previousInput);
                     const curr = parseFloat(currentInput);
                     if (!isNaN(prev) && !isNaN(curr) && operation) {
@@ -611,12 +778,10 @@ document.querySelectorAll('.btn').forEach(btn => {
                 }
                 break;
 
-            // Unary functions
             case 'sin': case 'cos': case 'tan': case 'log': case 'ln':
             case 'sqrt': case 'square': case 'cube': case 'factorial': case 'inv':
                 unaryFunction(action); break;
 
-            // Special
             case 'clear': clearAll(); break;
             case 'backspace': backspace(); break;
             case '(':
@@ -634,7 +799,6 @@ document.querySelectorAll('.btn').forEach(btn => {
         }
     });
 
-    // Touch for mobile
     btn.addEventListener('touchstart', function(e) {
         e.preventDefault();
         this.click();
@@ -645,7 +809,6 @@ document.querySelectorAll('.btn').forEach(btn => {
 document.addEventListener('keydown', function(e) {
     const key = e.key;
 
-    // Numbers and operators
     if (key >= '0' && key <= '9') {
         e.preventDefault();
         document.querySelector(`[data-action="${key}"]`)?.click();
@@ -671,7 +834,7 @@ document.addEventListener('keydown', function(e) {
 clearAll();
 renderHistory();
 
-console.log('🧮 Advanced Calculator by KnoX | Good Luck <3');
+console.log('🧮 Advanced Calculator v2.0.0 by KnoX | Good Luck <3');
 </script>
 </body>
-  </html>
+</html>
