@@ -13,12 +13,12 @@ const urlsToCache = [
   '/404.html',
   '/manifest.json',
   '/sw.js',
-  'https://uploadkon.ir/uploads/d44327_26dillimore-icon.png',
-  'https://uploadkon.ir/uploads/0daa27_26snake-icon.png',
-  'https://uploadkon.ir/uploads/aad227_26calculator-icon.png',
-  'https://uploadkon.ir/uploads/e38e27_26calendar-icon.png',
-  'https://uploadkon.ir/uploads/2ad227_26download.png',
-  'https://uploadkon.ir/uploads/966926_264155897.png'
+  'https://uploadkon.ir/uploads/dedf27_26Dillimore.png',
+  'https://uploadkon.ir/uploads/a1d927_26Dillimore-Snake.png',
+  'https://uploadkon.ir/uploads/f83927_26Dillimore-Calculator.png',
+  'https://uploadkon.ir/uploads/0d1427_26Dillimore-Calendar.png',
+  'https://uploadkon.ir/uploads/8e6b27_26Dillimore-TicTacToe.png',
+  'https://uploadkon.ir/uploads/783527_26Dillimore-StarWars.png'
 ];
 
 // Install Service Worker
