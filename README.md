@@ -1,9 +1,8 @@
 # 🚀 Dillimore Projects
 
-**by KnoX** | **Version 1.1.0**
+**by KnoX** | **Version 1.2.0**
 
 [![Website](https://img.shields.io/badge/Website-KnoX-00ff41?style=for-the-badge)](https://knox4545.github.io)
-
 [![Made with](https://img.shields.io/badge/Made%20with-HTML%2FCSS%2FJS-red?style=for-the-badge)](https://github.com/KnoX4545)
 
 ---
@@ -16,6 +15,7 @@
 | 🐍 **Snake** | Classic snake game | [Play](https://knox4545.github.io/Snake.html) |
 | 🧮 **Calculator** | Advanced calculator with functions | [Use](https://knox4545.github.io/Calculator.html) |
 | 🗓️ **Calendar** | Accurate Persian calendar | [View](https://knox4545.github.io/Calendar.html) |
+| 🎮 **Tic-Tac-Toe** | Classic game vs Bot or 2 Players | [Play](https://knox4545.github.io/TicTacToe.html) |
 | 🏠 **Hub** | Main page with all projects | [Visit](https://knox4545.github.io) |
 
 ---
@@ -84,6 +84,22 @@ A complete and accurate Persian (Jalali) calendar.
 
 ---
 
+## 🎮 **Tic-Tac-Toe**
+
+The classic Tic-Tac-Toe game with smart AI opponent.
+
+**Features:**
+- 🤖 Play against a smart bot
+- 👥 2 Players mode
+- 🧠 Smart AI that tries to win and block your moves
+- 📊 Score tracking (Wins, Losses, Draws)
+- 🎨 Dark theme design
+- ⌨️ Keyboard support (1-9 for moves, R for reset)
+
+[▶ Play Tic-Tac-Toe](https://knox4545.github.io/TicTacToe.html)
+
+---
+
 ## 🏠 **Projects Hub**
 
 Visit our main page to see all projects in one place.
@@ -121,4 +137,4 @@ MIT License - Free to use and modify
 
 ---
 
-*Version 1.1.0*
+*Version 1.2.0*
