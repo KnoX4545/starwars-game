@@ -3,324 +3,505 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>StarWars Offline Version (1.0.0) - Dillimore</title>
+    <title>⚔️ StarWars - Dillimore</title>
     <link rel="icon" type="image/x-icon" href="https://uploadkon.ir/uploads/966926_264155897.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
-        /* ===== RESET & BASE ===== */
+        /* ============================================================
+                   CSS VARIABLES
+                ============================================================ */
+        :root {
+            --bg-body: #0f0e17;
+            --bg-container: #1a1932;
+            --bg-card: #222145;
+            --bg-card-hover: #2a2955;
+            --bg-card-border: #2a2a4a;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --text-muted: #6c6e8a;
+            --accent-1: #ff8906;
+            --accent-2: #e53170;
+            --accent-3: #6246d4;
+            --accent-glow: rgba(255, 137, 6, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 16px 48px rgba(255, 137, 6, 0.06);
+            --border-color: #2a2a4a;
+            --radius: 18px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* ============================================================
+                   RESET & BASE
+                ============================================================ */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            background: #0a0a0a;
-            font-family: 'Courier New', monospace;
+            background: var(--bg-body);
+            font-family: var(--font);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 16px;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
+
         .container {
-            background: #111;
-            max-width: 600px;
+            background: var(--bg-container);
+            border: 1px solid var(--bg-card-border);
+            border-radius: var(--radius);
+            padding: 24px 20px 20px;
+            max-width: 620px;
             width: 100%;
-            border-radius: 16px;
-            border: 2px solid #00ff41;
-            padding: 20px;
-            box-shadow: 0 0 40px rgba(0, 255, 65, 0.08);
+            box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
-            height: 95vh;
-            max-height: 750px;
+            max-height: 98vh;
         }
 
-        /* ===== HEADER ===== */
+        /* ============================================================
+                   HEADER
+                ============================================================ */
         .header {
             text-align: center;
-            padding: 12px;
-            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
             flex-shrink: 0;
-        }
-        .header h1 {
-            color: #00ff41;
-            font-size: 18px;
-            letter-spacing: 2px;
-        }
-        .header .sub {
-            color: #666;
-            font-size: 10px;
-            margin-top: 2px;
-            letter-spacing: 1px;
-        }
-        .header .version {
-            color: #444;
-            font-size: 9px;
         }
 
-        /* ===== STATS BAR ===== */
+        .header .badge {
+            display: inline-block;
+            background: var(--accent-glow);
+            color: var(--accent-1);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 2px 14px;
+            border-radius: 100px;
+            border: 1px solid var(--accent-glow);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .header h1 {
+            color: var(--text-primary);
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .sub {
+            color: var(--text-muted);
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+                   STATS BAR
+                ============================================================ */
         .stats-bar {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: repeat(6, 1fr);
             gap: 4px;
-            padding: 8px 0;
-            border-bottom: 1px solid #1a1a1a;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
             flex-shrink: 0;
         }
+
         .stat-box {
             text-align: center;
-            background: #0d0d0d;
-            border-radius: 4px;
-            padding: 4px 2px;
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 6px 2px;
+            border: 1px solid var(--bg-card-border);
+            transition: border-color var(--transition);
         }
+
         .stat-box .label {
-            color: #555;
-            font-size: 7px;
+            color: var(--text-muted);
+            font-size: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
+
         .stat-box .value {
-            color: #00d4ff;
-            font-size: 11px;
-            font-weight: bold;
+            color: var(--text-primary);
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 1px;
         }
+
         .stat-box .value.money { color: #ffd700; }
         .stat-box .value.troopers { color: #ff6b6b; }
-        .stat-box .value.energy { color: #00ff41; }
+        .stat-box .value.energy { color: var(--accent-1); }
         .stat-box .value.level { color: #ff9f43; }
         .stat-box .value.sword { color: #a29bfe; }
         .stat-box .value.rank { color: #fd79a8; }
 
-        /* ===== CHAT AREA ===== */
+        /* ============================================================
+                   CHAT AREA
+                ============================================================ */
         .chat {
             flex: 1;
             overflow-y: auto;
-            padding: 10px 4px;
-            margin: 6px 0;
-            background: #0a0a0a;
-            border-radius: 8px;
-            border: 1px solid #1a1a1a;
-            min-height: 200px;
+            padding: 10px 6px;
+            margin: 8px 0;
+            background: #0d0c1a;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            min-height: 180px;
+            max-height: 320px;
         }
+
         .chat::-webkit-scrollbar {
             width: 4px;
         }
         .chat::-webkit-scrollbar-track {
-            background: #0a0a0a;
+            background: transparent;
         }
         .chat::-webkit-scrollbar-thumb {
-            background: #222;
-            border-radius: 2px;
+            background: var(--bg-card-border);
+            border-radius: 4px;
         }
 
         .msg {
-            margin-bottom: 6px;
-            padding: 6px 10px;
-            border-radius: 6px;
+            margin-bottom: 5px;
+            padding: 5px 10px;
+            border-radius: 8px;
             max-width: 95%;
             word-wrap: break-word;
             font-size: 12px;
             line-height: 1.5;
             animation: fadeIn 0.15s ease;
+            font-family: var(--font);
         }
+
         .msg.system {
-            background: #0d0d0d;
-            color: #888;
-            border-left: 2px solid #333;
+            background: var(--bg-card);
+            color: var(--text-muted);
+            border-left: 2px solid var(--border-color);
             font-style: italic;
+            font-size: 11px;
         }
+
         .msg.user {
-            background: #1a2a1a;
-            color: #00ff41;
-            border-left: 2px solid #00ff41;
+            background: rgba(255, 137, 6, 0.08);
+            color: var(--accent-1);
+            border-left: 2px solid var(--accent-1);
             margin-left: auto;
             text-align: right;
         }
+
         .msg.bot {
-            background: #1a1a2a;
-            color: #aaa;
-            border-left: 2px solid #4a9eff;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border-left: 2px solid var(--accent-3);
         }
+
         .msg.bot .highlight { color: #ffd700; }
-        .msg.bot .green { color: #00ff41; }
+        .msg.bot .green { color: var(--accent-1); }
         .msg.bot .red { color: #ff4444; }
         .msg.bot .cyan { color: #00d4ff; }
         .msg.bot .blue { color: #4a9eff; }
         .msg.bot .magenta { color: #ff00ff; }
         .msg.bot .yellow { color: #ffd700; }
-        .msg.bot .orange { color: #ff8c00; }
         .msg.bot .gold { color: #ffd700; }
-        .msg.bot .bold { font-weight: bold; }
+        .msg.bot .rank { color: #fd79a8; }
+        .msg.bot .level { color: #ff9f43; }
+        .msg.bot .energy { color: var(--accent-1); }
+        .msg.bot .sword { color: #a29bfe; }
+        .msg.bot .troopers { color: #ff6b6b; }
+        .msg.bot .bold { font-weight: 700; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== INPUT AREA ===== */
-        .input-area {
-            display: flex;
-            gap: 6px;
-            padding: 8px 0;
-            border-top: 1px solid #1a1a1a;
-            flex-shrink: 0;
-        }
-        .input-area input {
-            flex: 1;
-            padding: 10px 12px;
-            background: #0d0d0d;
-            border: 1px solid #222;
-            border-radius: 8px;
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .input-area input:focus {
-            border-color: #00ff41;
-        }
-        .input-area input::placeholder {
-            color: #444;
-            font-size: 12px;
-        }
-        .input-area button {
-            padding: 10px 18px;
-            background: #00ff41;
-            color: #0a0a0a;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-        .input-area button:hover {
-            background: #00cc33;
-            transform: scale(0.97);
-        }
-
-        /* ===== QUICK BUTTONS ===== */
-        .quick-row {
+        /* ============================================================
+                   QUICK BUTTONS
+                ============================================================ */
+        .quick-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-columns: repeat(4, 1fr);
             gap: 4px;
-            padding: 6px 0;
+            padding: 6px 0 4px 0;
             flex-shrink: 0;
         }
-        .quick-btn {
-            padding: 6px 2px;
-            background: #0d0d0d;
-            border: 1px solid #1a1a1a;
-            border-radius: 4px;
-            color: #888;
-            font-family: 'Courier New', monospace;
-            font-size: 9px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .quick-btn:hover {
-            background: #1a1a1a;
-            border-color: #333;
-            color: #fff;
-        }
-        .quick-btn:active {
-            transform: scale(0.95);
-        }
-        .quick-btn.atk { border-color: #ff444433; }
-        .quick-btn.atk:hover { border-color: #ff4444; color: #ff4444; }
-        .quick-btn.st { border-color: #4a9eff33; }
-        .quick-btn.st:hover { border-color: #4a9eff; color: #4a9eff; }
-        .quick-btn.sh { border-color: #ffd70033; }
-        .quick-btn.sh:hover { border-color: #ffd700; color: #ffd700; }
-        .quick-btn.en { border-color: #00ff4133; }
-        .quick-btn.en:hover { border-color: #00ff41; color: #00ff41; }
-        .quick-btn.ex { border-color: #ff444433; }
-        .quick-btn.ex:hover { border-color: #ff4444; color: #ff4444; }
 
-        .quick-row2 {
+        .quick-grid-2 {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-            gap: 3px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
             padding: 4px 0 6px 0;
             flex-shrink: 0;
         }
-        .quick-btn2 {
-            padding: 4px 2px;
-            background: #0d0d0d;
-            border: 1px solid #161616;
-            border-radius: 3px;
-            color: #666;
-            font-family: 'Courier New', monospace;
-            font-size: 8px;
+
+        .quick-btn {
+            padding: 8px 4px;
+            background: var(--bg-card);
+            border: 1px solid var(--bg-card-border);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: var(--font);
+            font-size: 10px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all var(--transition);
             text-align: center;
-        }
-        .quick-btn2:hover {
-            background: #151515;
-            border-color: #222;
-            color: #aaa;
+            letter-spacing: 0.3px;
+            line-height: 1.2;
         }
 
-        /* ===== EXIT BUTTON ===== */
-        .exit-row {
-            padding: 4px 0 0 0;
+        .quick-btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent-1);
+            color: var(--text-primary);
+        }
+
+        .quick-btn:active {
+            transform: scale(0.95);
+        }
+
+        .quick-btn .icon {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .quick-btn.attack { border-color: rgba(255, 68, 68, 0.2); }
+        .quick-btn.attack:hover { border-color: #ff4444; color: #ff4444; }
+
+        .quick-btn.stats { border-color: rgba(74, 158, 255, 0.2); }
+        .quick-btn.stats:hover { border-color: #4a9eff; color: #4a9eff; }
+
+        .quick-btn.shop { border-color: rgba(255, 215, 0, 0.2); }
+        .quick-btn.shop:hover { border-color: #ffd700; color: #ffd700; }
+
+        .quick-btn.energy { border-color: rgba(255, 137, 6, 0.2); }
+        .quick-btn.energy:hover { border-color: var(--accent-1); color: var(--accent-1); }
+
+        .quick-btn.exit-btn {
+            border-color: rgba(255, 68, 68, 0.3);
+            color: #ff4444;
+        }
+        .quick-btn.exit-btn:hover {
+            border-color: #ff4444;
+            background: rgba(255, 68, 68, 0.08);
+        }
+
+        /* ============================================================
+                   INPUT AREA
+                ============================================================ */
+        .input-area {
+            display: flex;
+            gap: 6px;
+            padding: 8px 0 4px 0;
+            border-top: 1px solid var(--border-color);
             flex-shrink: 0;
         }
-        .exit-btn {
-            width: 100%;
-            padding: 10px;
-            background: #1a0a0a;
-            border: 2px solid #ff4444;
-            border-radius: 6px;
-            color: #ff4444;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-        .exit-btn:hover {
-            background: #ff4444;
-            color: #0a0a0a;
-            box-shadow: 0 0 20px #ff444422;
+
+        .input-area input {
+            flex: 1;
+            padding: 10px 14px;
+            background: #0d0c1a;
+            border: 1px solid var(--bg-card-border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: var(--font);
+            font-size: 13px;
+            outline: none;
+            transition: border-color var(--transition);
         }
 
-        /* ===== COPYRIGHT ===== */
+        .input-area input:focus {
+            border-color: var(--accent-1);
+        }
+
+        .input-area input::placeholder {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        .input-area button {
+            padding: 10px 20px;
+            background: var(--accent-1);
+            color: var(--bg-body);
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--font);
+            font-size: 14px;
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+
+        .input-area button:hover {
+            background: #e07c00;
+            transform: scale(0.97);
+        }
+
+        /* ============================================================
+                   EXIT BUTTON (BIG)
+                ============================================================ */
+        .exit-row {
+            padding: 6px 0 0 0;
+            flex-shrink: 0;
+        }
+
+        .exit-btn-big {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 68, 68, 0.04);
+            border: 2px solid rgba(255, 68, 68, 0.3);
+            border-radius: 12px;
+            color: #ff4444;
+            font-family: var(--font);
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-align: center;
+        }
+
+        .exit-btn-big:hover {
+            background: rgba(255, 68, 68, 0.08);
+            border-color: #ff4444;
+            box-shadow: 0 0 30px rgba(255, 68, 68, 0.04);
+        }
+
+        .exit-btn-big:active {
+            transform: scale(0.97);
+        }
+
+        /* ============================================================
+                   FOOTER
+                ============================================================ */
         .footer {
             text-align: center;
-            color: #222;
-            font-size: 8px;
-            padding-top: 6px;
+            color: var(--text-muted);
+            font-size: 9px;
+            padding-top: 10px;
+            margin-top: 6px;
+            border-top: 1px solid var(--border-color);
             flex-shrink: 0;
-            letter-spacing: 0.5px;
-        }
-        .footer span {
-            color: #00ff41;
+            opacity: 0.5;
+            letter-spacing: 0.3px;
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 500px) {
-            .container { padding: 12px; max-height: 98vh; }
-            .stats-bar { grid-template-columns: 1fr 1fr 1fr; gap: 3px; }
-            .quick-row { grid-template-columns: 1fr 1fr 1fr 1fr; }
-            .quick-row2 { grid-template-columns: 1fr 1fr 1fr 1fr; }
-            .header h1 { font-size: 15px; }
-            .msg { font-size: 11px; padding: 5px 8px; }
-            .stat-box .value { font-size: 10px; }
-            .input-area input { font-size: 12px; padding: 8px 10px; }
-            .input-area button { font-size: 12px; padding: 8px 12px; }
+        .footer .brand {
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
         }
+
+        /* ============================================================
+                   RESPONSIVE
+                ============================================================ */
+        @media (max-width: 520px) {
+            .container {
+                padding: 16px 12px 14px;
+                max-height: 100vh;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 3px;
+                padding: 6px 0;
+            }
+
+            .stat-box .value {
+                font-size: 11px;
+            }
+
+            .quick-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-btn {
+                font-size: 9px;
+                padding: 6px 4px;
+            }
+
+            .quick-btn .icon {
+                font-size: 14px;
+            }
+
+            .chat {
+                min-height: 120px;
+                max-height: 220px;
+                padding: 8px 4px;
+            }
+
+            .msg {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+
+            .input-area input {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            .input-area button {
+                font-size: 12px;
+                padding: 8px 14px;
+            }
+
+            .exit-btn-big {
+                font-size: 13px;
+                padding: 10px;
+            }
+        }
+
         @media (max-width: 380px) {
-            .stats-bar { grid-template-columns: 1fr 1fr; }
-            .quick-row { grid-template-columns: 1fr 1fr 1fr; }
-            .quick-row2 { grid-template-columns: 1fr 1fr 1fr; }
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .quick-grid-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -330,41 +511,43 @@
 
     <!-- HEADER -->
     <div class="header">
-        <h1>✦ STAR WARS ✦</h1>
-        <div class="sub">by KnoX  |  Good Luck &lt;3</div>
-        <div class="version">StarWars Offline Version (1.0.0)</div>
+        <div class="badge">✦ Classic</div>
+        <h1>⚔️ <span class="highlight">StarWars</span></h1>
+        <div class="sub">Command your troopers — Good Luck Commander</div>
     </div>
+
     <!-- STATS BAR -->
     <div class="stats-bar" id="statsDisplay">
-        <div class="stat-box"><div class="label">💰</div><div class="value money" id="statMoney">0</div></div>
-        <div class="stat-box"><div class="label">👥</div><div class="value troopers" id="statTroopers">0</div></div>
-        <div class="stat-box"><div class="label">⚡</div><div class="value energy" id="statEnergy">150/150</div></div>
-        <div class="stat-box"><div class="label">🏅</div><div class="value level" id="statLevel">1</div></div>
-        <div class="stat-box"><div class="label">🗡️</div><div class="value sword" id="statSword">None</div></div>
-        <div class="stat-box"><div class="label">⭐</div><div class="value rank" id="statRank">Bronze</div></div>
+        <div class="stat-box"><div class="label">💰 Money</div><div class="value money" id="statMoney">0</div></div>
+        <div class="stat-box"><div class="label">👥 Troopers</div><div class="value troopers" id="statTroopers">0</div></div>
+        <div class="stat-box"><div class="label">⚡ Energy</div><div class="value energy" id="statEnergy">150/150</div></div>
+        <div class="stat-box"><div class="label">🏅 Level</div><div class="value level" id="statLevel">1</div></div>
+        <div class="stat-box"><div class="label">🗡️ Sword</div><div class="value sword" id="statSword">None</div></div>
+        <div class="stat-box"><div class="label">⭐ Rank</div><div class="value rank" id="statRank">Bronze</div></div>
     </div>
-    </br>
+
     <!-- QUICK BUTTONS ROW 1 -->
-    <div class="quick-row">
-        <button class="quick-btn atk" onclick="quickCmd('attack')">⚔️ Attack</button>
-        <button class="quick-btn st" onclick="quickCmd('stats')">📊 Stats</button>
-        <button class="quick-btn sh" onclick="quickCmd('shop')">🏪 Shop</button>
-        <button class="quick-btn en" onclick="quickCmd('myenergy')">⚡ Energy</button>
+    <div class="quick-grid">
+        <button class="quick-btn attack" onclick="quickCmd('attack')"><span class="icon">⚔️</span>Attack</button>
+        <button class="quick-btn stats" onclick="quickCmd('stats')"><span class="icon">📊</span>Stats</button>
+        <button class="quick-btn shop" onclick="quickCmd('shop')"><span class="icon">🏪</span>Shop</button>
+        <button class="quick-btn energy" onclick="quickCmd('myenergy')"><span class="icon">⚡</span>Energy</button>
     </div>
 
     <!-- QUICK BUTTONS ROW 2 -->
-    <div class="quick-row2">
-        <button class="quick-btn2" onclick="quickCmd('dailyreward')">🎁 Daily</button>
-        <button class="quick-btn2" onclick="quickCmd('mysword')">🗡️ Sword</button>
-        <button class="quick-btn2" onclick="quickCmd('myrank')">⭐ Rank</button>
-        <button class="quick-btn2" onclick="quickCmd('rankhelp')">📖 Rank</button>
-        <button class="quick-btn2" onclick="quickCmd('prices')">💰 Prices</button>
-        <button class="quick-btn2" onclick="quickCmd('upgradeenergy')">⬆️ Energy</button>
-        <button class="quick-btn2" onclick="quickCmd('buyenergy')">🧪 Buy E</button>
-        <button class="quick-btn2" onclick="quickCmd('buysword')">🛒 Buy S</button>
-        <button class="quick-btn2" onclick="quickCmd('repairsword')">🔧 Repair</button>
-        <button class="quick-btn2" onclick="quickCmd('upgradesword')">⬆️ Sword</button>
-        <button class="quick-btn2" onclick="quickCmd('help')">❓ Help</button>
+    <div class="quick-grid-2">
+        <button class="quick-btn" onclick="quickCmd('dailyreward')"><span class="icon">🎁</span>Daily</button>
+        <button class="quick-btn" onclick="quickCmd('mysword')"><span class="icon">🗡️</span>My Sword</button>
+        <button class="quick-btn" onclick="quickCmd('myrank')"><span class="icon">⭐</span>My Rank</button>
+        <button class="quick-btn" onclick="quickCmd('rankhelp')"><span class="icon">📖</span>Rank Help</button>
+        <button class="quick-btn" onclick="quickCmd('prices')"><span class="icon">💰</span>Prices</button>
+        <button class="quick-btn" onclick="quickCmd('upgradeenergy')"><span class="icon">⬆️</span>Up Energy</button>
+        <button class="quick-btn" onclick="quickCmd('buyenergy')"><span class="icon">🧪</span>Buy Energy</button>
+        <button class="quick-btn" onclick="quickCmd('buysword')"><span class="icon">🛒</span>Buy Sword</button>
+        <button class="quick-btn" onclick="quickCmd('repairsword')"><span class="icon">🔧</span>Repair Sword</button>
+        <button class="quick-btn" onclick="quickCmd('upgradesword')"><span class="icon">⬆️</span>Up Sword</button>
+        <button class="quick-btn" onclick="quickCmd('help')"><span class="icon">❓</span>Help</button>
+        <button class="quick-btn exit-btn" onclick="quickCmd('exit')"><span class="icon">🚪</span>Exit</button>
     </div>
 
     <!-- CHAT AREA -->
@@ -372,32 +555,34 @@
         <div class="msg system">✦ StarWars Offline v1.0.0 loaded.</div>
         <div class="msg system">⚡ Energy auto-regenerates every 30s.</div>
         <div class="msg system">💡 Type 'help' for commands or use buttons.</div>
-        <div class="msg system">⚠️ Use 'exit' or Exit button to save energy!</div>
+        <div class="msg system">⚠️ Use 'Exit' button or type 'exit' to save energy!</div>
+        <div class="msg system">🔐 Admin: type 'imadmin' in chat (no button).</div>
     </div>
 
     <!-- INPUT AREA -->
     <div class="input-area">
         <input type="text" id="cmdInput" placeholder="Type command..." onkeydown="if(event.key==='Enter') sendCmd()" autofocus />
-        <button onclick="sendCmd()">▶</button>
+        <button onclick="sendCmd()">▶ Send</button>
     </div>
 
     <!-- EXIT BUTTON -->
     <div class="exit-row">
-        <button class="exit-btn" onclick="quickCmd('exit')">🚪 EXIT &amp; SAVE</button>
+        <button class="exit-btn-big" onclick="quickCmd('exit')">🚪 EXIT &amp; SAVE</button>
     </div>
 
     <!-- FOOTER -->
     <div class="footer">
-        <span>#StarWars Project by KnoX</span>  |  Good Luck &lt;3
+        <span class="brand">Dillimore</span> — Built with ❤️ by <span class="brand">KnoX</span>
+        <br>© 2024-2026 Dillimore Team. All rights reserved.
     </div>
 
 </div>
 
 <script>
 // ================================================================
-// STAR WARS PROJECT by KnoX  –  Full Game  –  Version 1.0.0
+// ⚔️ STAR WARS PROJECT  –  by KnoX  –  Version 2.0.0
+// ================================================================
 // ALL GAME LOGIC IS EXACTLY THE SAME AS YOUR ORIGINAL PYTHON CODE.
-// ONLY UI/UX IMPROVEMENTS – CHAT STYLE, NO PROMPT, NO ADMIN BUTTON.
 // ================================================================
 
 // ---------- VARIABLES ----------
@@ -564,14 +749,59 @@ function calculateOfflineEnergy() {
     saveGame();
 }
 
-// ---------- COMMAND PROCESSOR ----------
+// ---------- WAIT FOR INPUT ----------
+let waiting = false;
+let waitingCallback = null;
+
+function waitForInput(callback) {
+    waiting = true;
+    waitingCallback = callback;
+    cmdInput.placeholder = 'Type your response...';
+    cmdInput.focus();
+}
+
+// ---------- SEND COMMAND ----------
+function sendCmd() {
+    let text = cmdInput.value.trim();
+    cmdInput.value = '';
+    if (!text) return;
+
+    if (waiting) {
+        waiting = false;
+        let cb = waitingCallback;
+        waitingCallback = null;
+        cmdInput.placeholder = 'Type command...';
+        addUser(text);
+        cb(text);
+        return;
+    }
+
+    processCommand(text.toLowerCase());
+}
+
+function quickCmd(cmd) {
+    if (waiting) {
+        let cb = waitingCallback;
+        waitingCallback = null;
+        waiting = false;
+        cmdInput.placeholder = 'Type command...';
+        addUser(cmd);
+        cb(cmd);
+        return;
+    }
+    processCommand(cmd);
+    cmdInput.focus();
+}
+
+// ================================================================
+// ========== MAIN COMMAND PROCESSOR ==============================
+// ================================================================
 function processCommand(cmd) {
     addUser(cmd);
 
     // ---- ADMIN ----
     if (cmd == 'imadmin') {
         addBot('🔐 Enter admin password:');
-        // Wait for password input
         waitForInput(function(pas) {
             if (pas == '9061') {
                 Admin = true;
@@ -842,7 +1072,7 @@ function processCommand(cmd) {
                 if (XP >= xp_needed) {
                     XP -= xp_needed;
                     Level += 1;
-                    addBot('<span class="bold" style="color:#00ff41;">🎉 LEVEL UP! You are now Level ' + Level + '! 🎉</span>');
+                    addBot('<span class="bold" style="color:var(--accent-1);">🎉 LEVEL UP! You are now Level ' + Level + '! 🎉</span>');
                     addBot('⭐ Your rank is now <span class="rank">' + getRank() + '</span>.');
                     saveGame();
                 }
@@ -1088,49 +1318,6 @@ function processCommand(cmd) {
 
     // ---- UNKNOWN ----
     addBot('<span class="red">❌ Unknown command. Type \'help\' for list.</span>');
-}
-
-// ---------- WAIT FOR INPUT ----------
-let waiting = false;
-let waitingCallback = null;
-
-function waitForInput(callback) {
-    waiting = true;
-    waitingCallback = callback;
-    cmdInput.placeholder = 'Type your response...';
-    cmdInput.focus();
-}
-
-function sendCmd() {
-    let text = cmdInput.value.trim();
-    cmdInput.value = '';
-    if (!text) return;
-
-    if (waiting) {
-        waiting = false;
-        let cb = waitingCallback;
-        waitingCallback = null;
-        cmdInput.placeholder = 'Type command...';
-        addUser(text);
-        cb(text);
-        return;
-    }
-
-    processCommand(text.toLowerCase());
-}
-
-function quickCmd(cmd) {
-    if (waiting) {
-        let cb = waitingCallback;
-        waitingCallback = null;
-        waiting = false;
-        cmdInput.placeholder = 'Type command...';
-        addUser(cmd);
-        cb(cmd);
-        return;
-    }
-    processCommand(cmd);
-    cmdInput.focus();
 }
 
 // ---------- AUTO ENERGY ----------
