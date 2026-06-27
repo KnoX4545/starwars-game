@@ -3,9 +3,42 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Tic-Tac-Toe - Dillimore</title>
+    <title>🎮 Tic-Tac-Toe - Dillimore</title>
     <link rel="icon" type="image/x-icon" href="https://uploadkon.ir/uploads/2ad227_26download.png">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <style>
+        /* ============================================================
+                   CSS VARIABLES
+                ============================================================ */
+        :root {
+            --bg-body: #0f0e17;
+            --bg-container: #1a1932;
+            --bg-card: #222145;
+            --bg-card-hover: #2a2955;
+            --bg-card-border: #2a2a4a;
+            --text-primary: #fffffe;
+            --text-secondary: #a7a9be;
+            --text-muted: #6c6e8a;
+            --accent-1: #ff8906;
+            --accent-2: #e53170;
+            --accent-3: #6246d4;
+            --accent-glow: rgba(255, 137, 6, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 16px 48px rgba(255, 137, 6, 0.06);
+            --border-color: #2a2a4a;
+            --radius: 18px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        /* ============================================================
+                   RESET & BASE
+                ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -13,100 +46,134 @@
         }
 
         body {
-            background: #0a0a0a;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-body);
+            font-family: var(--font);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 16px;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
 
         .container {
-            background: #111;
-            border: 2px solid #00ff41;
-            border-radius: 24px;
+            background: var(--bg-container);
+            border: 1px solid var(--bg-card-border);
+            border-radius: var(--radius);
             padding: 24px 20px 20px;
-            max-width: 420px;
+            max-width: 440px;
             width: 100%;
-            box-shadow: 0 0 60px rgba(0, 255, 65, 0.04);
-            color: #aaa;
+            box-shadow: var(--shadow);
             text-align: center;
         }
 
+        /* ============================================================
+                   HEADER
+                ============================================================ */
+        .header {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: var(--accent-glow);
+            color: var(--accent-1);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 2px 14px;
+            border-radius: 100px;
+            border: 1px solid var(--accent-glow);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
         .header h1 {
-            color: #00ff41;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 2px;
+            color: var(--text-primary);
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header .sub {
-            color: #666;
+            color: var(--text-muted);
             font-size: 11px;
-            letter-spacing: 1.5px;
-            margin-top: 4px;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
         }
 
-        .header .sub span {
-            color: #00ff41;
-        }
-
-        /* ===== MODE SELECTOR ===== */
+        /* ============================================================
+                   MODE SELECTOR
+                ============================================================ */
         .mode-selector {
             display: flex;
             gap: 10px;
-            margin: 16px 0 12px;
+            margin: 14px 0 12px;
             justify-content: center;
         }
 
         .mode-btn {
-            padding: 8px 20px;
+            padding: 8px 24px;
             background: transparent;
-            border: 1px solid #2a2a2a;
-            border-radius: 20px;
-            color: #888;
+            border: 1px solid var(--bg-card-border);
+            border-radius: 100px;
+            color: var(--text-muted);
             font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
+            transition: all var(--transition);
+            font-family: var(--font);
         }
 
         .mode-btn:hover {
-            border-color: #00ff41;
-            color: #00ff41;
+            border-color: var(--accent-1);
+            color: var(--accent-1);
         }
 
         .mode-btn.active {
-            border-color: #00ff41;
-            color: #00ff41;
-            background: rgba(0, 255, 65, 0.05);
+            border-color: var(--accent-1);
+            color: var(--accent-1);
+            background: var(--accent-glow);
         }
 
-        /* ===== TURN INDICATOR ===== */
+        /* ============================================================
+                   TURN INDICATOR
+                ============================================================ */
         .turn-indicator {
-            font-size: 18px;
+            font-size: 17px;
             font-weight: 600;
             margin: 8px 0 14px;
-            padding: 8px;
-            background: #0d0d0d;
-            border-radius: 10px;
-            border: 1px solid #1a1a1a;
+            padding: 10px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
         }
 
         .turn-indicator .x-turn {
-            color: #4a9eff;
+            color: var(--accent-3);
         }
 
         .turn-indicator .o-turn {
-            color: #ff6b6b;
+            color: var(--accent-2);
         }
 
         .turn-indicator .winner {
-            color: #ffd700;
+            color: var(--accent-1);
         }
 
-        /* ===== BOARD ===== */
+        /* ============================================================
+                   BOARD
+                ============================================================ */
         .board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -117,58 +184,63 @@
         }
 
         .cell {
-            background: #0d0d0d;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--bg-card-border);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 52px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all var(--transition);
             aspect-ratio: 1 / 1;
             user-select: none;
         }
 
         .cell:hover {
-            border-color: #333;
+            border-color: var(--accent-1);
+            background: var(--bg-card-hover);
         }
 
         .cell.x {
-            color: #4a9eff;
-            text-shadow: 0 0 30px rgba(74, 158, 255, 0.15);
+            color: var(--accent-3);
+            text-shadow: 0 0 40px rgba(98, 70, 212, 0.15);
         }
 
         .cell.o {
-            color: #ff6b6b;
-            text-shadow: 0 0 30px rgba(255, 107, 107, 0.15);
+            color: var(--accent-2);
+            text-shadow: 0 0 40px rgba(229, 49, 112, 0.15);
         }
 
         .cell.win-cell {
-            border-color: #ffd700;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.08);
+            border-color: var(--accent-1);
+            box-shadow: 0 0 40px var(--accent-glow);
+            background: var(--accent-glow);
         }
 
         .cell:active {
-            transform: scale(0.92);
+            transform: scale(0.93);
         }
 
-        /* ===== SCORE ===== */
+        /* ============================================================
+                   SCORE
+                ============================================================ */
         .score {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin: 16px 0 10px;
-            padding: 10px;
-            background: #0d0d0d;
+            gap: 32px;
+            margin: 16px 0 12px;
+            padding: 12px 16px;
+            background: var(--bg-card);
             border-radius: 12px;
-            border: 1px solid #1a1a1a;
+            border: 1px solid var(--border-color);
         }
 
         .score-item {
-            color: #666;
+            color: var(--text-muted);
             font-size: 13px;
+            font-weight: 500;
         }
 
         .score-item .num {
@@ -177,86 +249,147 @@
         }
 
         .score-item .num.x-score {
-            color: #4a9eff;
+            color: var(--accent-3);
         }
 
         .score-item .num.o-score {
-            color: #ff6b6b;
+            color: var(--accent-2);
         }
 
         .score-item .num.draw-score {
-            color: #888;
+            color: var(--text-muted);
         }
 
-        /* ===== BUTTONS ===== */
+        /* ============================================================
+                   BUTTONS
+                ============================================================ */
         .btn-reset {
             margin-top: 12px;
-            padding: 10px 32px;
+            padding: 10px 36px;
             background: transparent;
-            border: 1px solid #00ff41;
-            border-radius: 20px;
-            color: #00ff41;
+            border: 2px solid var(--accent-1);
+            border-radius: 100px;
+            color: var(--accent-1);
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .btn-reset:hover {
-            background: #00ff41;
-            color: #0a0a0a;
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
-        }
-
-        .btn-reset:active {
-            transform: scale(0.92);
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            text-align: center;
-            color: #222;
-            font-size: 9px;
-            margin-top: 18px;
-            padding-top: 12px;
-            border-top: 1px solid #111;
+            transition: all var(--transition);
+            font-family: var(--font);
             letter-spacing: 0.5px;
         }
 
-        .footer span {
-            color: #00ff41;
+        .btn-reset:hover {
+            background: var(--accent-1);
+            color: var(--bg-body);
+            box-shadow: 0 0 40px var(--accent-glow);
         }
 
-        @media (max-width: 420px) {
+        .btn-reset:active {
+            transform: scale(0.95);
+        }
+
+        /* ============================================================
+                   FOOTER
+                ============================================================ */
+        .footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 9px;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            letter-spacing: 0.3px;
+            opacity: 0.5;
+        }
+
+        .footer .brand {
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+                   RESPONSIVE
+                ============================================================ */
+        @media (max-width: 440px) {
             .container {
-                padding: 16px 12px 14px;
+                padding: 18px 14px 14px;
+                border-radius: 16px;
             }
+
             .header h1 {
                 font-size: 22px;
             }
+
             .cell {
-                font-size: 38px;
-                border-radius: 10px;
+                font-size: 40px;
+                border-radius: 12px;
             }
+
             .board {
-                max-width: 280px;
+                max-width: 300px;
             }
+
             .turn-indicator {
                 font-size: 15px;
+            }
+
+            .score {
+                gap: 20px;
+                padding: 10px 14px;
+            }
+
+            .score-item {
+                font-size: 12px;
+            }
+
+            .score-item .num {
+                font-size: 16px;
+            }
+
+            .mode-btn {
+                font-size: 12px;
+                padding: 6px 18px;
             }
         }
 
         @media (max-width: 360px) {
+            .container {
+                padding: 14px 10px 12px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
             .board {
                 max-width: 240px;
             }
+
             .cell {
-                font-size: 30px;
+                font-size: 32px;
+                border-radius: 10px;
             }
+
             .mode-btn {
+                font-size: 10px;
+                padding: 5px 14px;
+            }
+
+            .score {
+                gap: 14px;
+                padding: 8px 10px;
+                flex-wrap: wrap;
+            }
+
+            .score-item {
                 font-size: 11px;
-                padding: 6px 14px;
+            }
+
+            .score-item .num {
+                font-size: 14px;
             }
         }
     </style>
@@ -267,8 +400,9 @@
 
         <!-- HEADER -->
         <div class="header">
-            <h1>🎮 Tic-Tac-Toe</h1>
-            <div class="sub">by <span>KnoX</span> | Good Luck &lt;3</div>
+            <div class="badge">✦ Classic</div>
+            <h1>🎮 <span class="highlight">Tic-Tac-Toe</span></h1>
+            <div class="sub">X vs O — Who will win?</div>
         </div>
 
         <!-- MODE SELECTOR -->
@@ -307,14 +441,15 @@
 
         <!-- FOOTER -->
         <div class="footer">
-            <span>#Dillimore Projects by KnoX</span> | Good Luck &lt;3
+            <span class="brand">Dillimore</span> — Built with ❤️ by <span class="brand">KnoX</span>
+            <br>© 2024-2026 Dillimore Team. All rights reserved.
         </div>
 
     </div>
 
     <script>
         // ================================================================
-        // 🎮 TIC-TAC-TOE  –  by KnoX  –  Version 1.0.0
+        // 🎮 TIC-TAC-TOE  –  by KnoX  –  Version 2.0.0
         // ================================================================
 
         // ---------- DOM ----------
@@ -542,7 +677,7 @@
         // ---------- INIT ----------
         initGame();
 
-        console.log('🎮 Tic-Tac-Toe by KnoX | Good Luck <3');
+        console.log('🎮 Tic-Tac-Toe v2.0.0 by KnoX | Good Luck <3');
         console.log('📌 Mode: Single Player (vs Bot)');
         console.log('⌨️  Keys: 1-9 for board, R=Reset, 1=Single, 2=Multi');
     </script>
